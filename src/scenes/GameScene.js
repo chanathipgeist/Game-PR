@@ -1,21 +1,23 @@
+import Phaser from "phaser";
 
 class GameScene extends Phaser.Scene {
-    constructor() {
+    constructor(test) {
         super({
             key: 'GameScene'
         });
     }
 
     preload() {
-        
+
     }
 
     create() {
-        this.add.text(20,20,"TEST", { fontSize: "50px"})
+
 
     }
 
-    update() {
+    update(delta, time) {
 
     }
 }
+export default GameScene;
