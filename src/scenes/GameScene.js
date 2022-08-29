@@ -11,8 +11,8 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.text(20,20,"TEST", { fontSize: "50px"})
-
+        this.add.text(20,20,"Scene: GameScene", { fontSize: "25px"})
+        
     }
 
     update() {

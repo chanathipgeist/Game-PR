@@ -1,7 +1,7 @@
 
 const config = {
-    width: 540,
-    height: 960,
+    width: 1280,
+    height: 720,
     physics: {
         default: 'arcade',
         arcade: {
@@ -13,3 +13,4 @@ const config = {
 }
 
 const game = new Phaser.Game(config);
+
