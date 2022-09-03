@@ -14,8 +14,7 @@ class GameScene extends Phaser.Scene {
         // Player
         this.player = this.physics.add.sprite(this.game.config.width / 2, this.game.config.height / 2, "Player").setOrigin(0.5, 0.5)
 
-        this.player.setBounceY(0.1)               // more Value = more bounce but if value = 0 physucs obj  will be unjump able
-        this.player.setBounceX(1)
+        this.player.setBounce(0.9,0)
         this.player.setCollideWorldBounds(true)
         this.player.body.setFrictionX(0)
 
@@ -30,7 +29,7 @@ class GameScene extends Phaser.Scene {
         this.groundCheck.body.setAllowGravity(false)
 
         this.physics.add.overlap(this.groundCheck, this.platform, () => {
-            this.jumpToke = this.time.now
+            this.jumpToken = this.time.now
         })
 
         // Collinder
@@ -39,6 +38,7 @@ class GameScene extends Phaser.Scene {
 
         // Time Event
         this.jumpTime = new Phaser.Time.TimerEvent({ delay: 1200 })
+        this.jumpAble = true
 
         // Keyboard Input
         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
@@ -59,6 +59,7 @@ class GameScene extends Phaser.Scene {
 
     movement() {
         // X axis Movement
+    
         if (this.Grounded())
         {
             if (this.left.isDown) { 
@@ -72,14 +73,23 @@ class GameScene extends Phaser.Scene {
             }
 
             // Y axis Movement
-
+            
             if (Phaser.Input.Keyboard.JustDown(this.space)) {
                 this.time.addEvent(this.jumpTime)
-                
-            }
-            if (Phaser.Input.Keyboard.JustUp(this.space)) {
-                this.player.setVelocityY(-150 * this.jumpForce)
             } 
+            else if (this.space.isDown) {
+                this.player.setVelocityX(0)
+                if (this.progress == 1 && this.jumpAble) 
+                {
+                    this.player.setVelocityY(-150 * this.jumpForce)
+                    this.jumpAble = false
+                }
+            } else if (Phaser.Input.Keyboard.JustUp(this.space) && this.jumpAble){
+                this.player.setVelocityY(-150 * this.jumpForce)
+            }
+
+            this.jumpAble = this.Grounded() && !this.space.isDown ? true : false
+            
         } 
     }
 
@@ -90,7 +100,7 @@ class GameScene extends Phaser.Scene {
     }
 
     Grounded() {
-        return this.jumpToke == this.time.now
+        return this.jumpToken == this.time.now
     }
 
 }
