@@ -50,7 +50,7 @@ class GameScene extends Phaser.Scene {
     update() {
         this.movement()
         this.Ground()
-
+        console.log(this.jumpAble)
 
         this.progress = this.jumpTime.getProgress()
         this.jumpForce = Math.ceil(this.progress * 5 ) //Progression is value between 0 and 1. We can extend gap by multiply it. Range will be rise but time will not change at all
@@ -59,7 +59,7 @@ class GameScene extends Phaser.Scene {
 
     movement() {
         // X axis Movement
-    
+        
         if (this.Grounded())
         {
             if (this.left.isDown) { 
@@ -78,6 +78,7 @@ class GameScene extends Phaser.Scene {
                 this.time.addEvent(this.jumpTime)
             } 
             else if (this.space.isDown) {
+                console.log('Isdown')
                 this.player.setVelocityX(0)
                 if (this.progress == 1 && this.jumpAble) 
                 {
@@ -86,9 +87,12 @@ class GameScene extends Phaser.Scene {
                 }
             } else if (Phaser.Input.Keyboard.JustUp(this.space) && this.jumpAble){
                 this.player.setVelocityY(-150 * this.jumpForce)
+                this.jumpAble = false
             }
 
-            this.jumpAble = this.Grounded() && !this.space.isDown ? true : false
+            if (!this.space.isDown) {
+                this.jumpAble = true
+            }
             
         } 
     }
