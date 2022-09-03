@@ -1,4 +1,4 @@
-var playerSpeed = 170;
+var playerSpeed = 250;
 
 var config = {
     type: Phaser.AUTO,
@@ -7,7 +7,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 700 },
+            gravity: { y: 1000 },
             debug : true
         }
     },

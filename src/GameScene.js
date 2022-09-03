@@ -5,6 +5,9 @@ class GameScene extends Phaser.Scene {
     preload() {
         this.load.image("Player", "./sprite/Player.png")
         this.load.image("Platform", "./sprite/Platform.png")
+        this.load.image("Platform1", "./sprite/Platform.png")
+        this.load.image("Platform2", "./sprite/Platform.png")
+        this.load.image("Platform3", "./sprite/Platform.png")
     }
 
     create() {
@@ -14,8 +17,7 @@ class GameScene extends Phaser.Scene {
         // Player
         this.player = this.physics.add.sprite(this.game.config.width / 2, this.game.config.height / 2, "Player").setOrigin(0.5, 0.5)
 
-        this.player.setBounceY(0.1)               // more Value = more bounce but if value = 0 physucs obj  will be unjump able
-        this.player.setBounceX(1)
+        this.player.setBounce(0.9,0)
         this.player.setCollideWorldBounds(true)
         this.player.body.setFrictionX(0)
 
@@ -24,21 +26,51 @@ class GameScene extends Phaser.Scene {
         this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
         this.platform.create(640, 700,"Platform")
 
-        // craete ground check zone
-        this.groundCheck = this.add.zone(0, 0).setSize(this.player.width, 5)
-        this.physics.world.enable(this.groundCheck)
-        this.groundCheck.body.setAllowGravity(false)
+        this.platform1 = this.physics.add.image(100, 500, "Platform1")
+            .setImmovable()
+            .setScale(0.5);
+        this.platform1.body.setAllowGravity(false)
 
-        this.physics.add.overlap(this.groundCheck, this.platform, () => {
-            this.jumpToke = this.time.now
+        this.physics.add.collider(this.player, this.platform1, () => {
+            this.jumpToken = this.time.now
         })
+
+        this.platform2 = this.physics.add.image(400, 300, "Platform2")
+            .setImmovable()
+            .setScale(0.5);
+        this.platform2.body.setAllowGravity(false)
+
+        this.physics.add.collider(this.player, this.platform2, () => {
+            this.jumpToken = this.time.now
+        })
+
+        this.platform3 = this.physics.add.image(600, 100, "Platform2")
+            .setImmovable()
+            .setScale(0.5);
+        this.platform3.body.setAllowGravity(false)
+
+        this.physics.add.collider(this.player, this.platform3, () => {
+            this.jumpToken = this.time.now
+        })
+
+        // craete ground check zone
+        //this.groundCheck = this.add.zone(0, 0).setSize(this.player.width, 5)
+        //this.physics.world.enable(this.groundCheck)
+        //this.groundCheck.body.setAllowGravity(false)
+
+        //this.physics.add.overlap(this.groundCheck, this.platform, () => {
+        //    this.jumpToken = this.time.now
+        //})
 
         // Collinder
 
-        this.physics.add.collider(this.player,this.platform)
+        this.physics.add.collider(this.player,this.platform, () => {
+            this.jumpToken = this.time.now
+        })
 
         // Time Event
         this.jumpTime = new Phaser.Time.TimerEvent({ delay: 1200 })
+        this.jumpAble = true
 
         // Keyboard Input
         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
@@ -48,9 +80,10 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
+        console.log(this.jumpForce)
         this.movement()
         this.Ground()
-
+        //console.log(this.jumpAble)
 
         this.progress = this.jumpTime.getProgress()
         this.jumpForce = Math.ceil(this.progress * 5 ) //Progression is value between 0 and 1. We can extend gap by multiply it. Range will be rise but time will not change at all
@@ -59,6 +92,7 @@ class GameScene extends Phaser.Scene {
 
     movement() {
         // X axis Movement
+        
         if (this.Grounded())
         {
             if (this.left.isDown) { 
@@ -69,32 +103,49 @@ class GameScene extends Phaser.Scene {
                 this.player.setVelocityX(playerSpeed)
             } else {
                 this.player.setVelocityX(0)
-            } 
-            if(this.space.isDown) {
-                this.player.setVelocityX(0);
             }
 
             // Y axis Movement
-
+            
             if (Phaser.Input.Keyboard.JustDown(this.space)) {
+                this.jumpTime.paused = false;
                 this.time.addEvent(this.jumpTime)
-                
-            }
-            if (Phaser.Input.Keyboard.JustUp(this.space)) {
-                this.player.setVelocityY(-150 * this.jumpForce)
             } 
+            else if (this.space.isDown) {
+                //console.log('Isdown')
+                this.player.setVelocityX(0)
+                if (this.progress == 1 && this.jumpAble) 
+                {
+                    this.player.setVelocityY(-150 * this.jumpForce)
+                    this.jumpAble = false
+                }
+            } else if (Phaser.Input.Keyboard.JustUp(this.space) && this.jumpAble){
+                this.jumpTime.paused = true;
+                this.player.setVelocityY(-150 * this.jumpForce)
+                setTimeout(this.clearJumpFore, 100)
+                this.jumpAble = false
+                this.jumpForce += -this.progress * 5 
+            }
+
+            if (!this.space.isDown) {
+                this.jumpAble = true
+            }
             
         } 
     }
 
+    clearJumpFore() {
+        this.jumpForce = 0;
+    }
+
     // Make ground checker follow player
     Ground() {
-        this.groundCheck.x = this.player.x
-        this.groundCheck.y = this.player.y + this.player.height/2
+        //this.groundCheck.x = this.player.x
+        //this.groundCheck.y = this.player.y + this.player.height/2
     }
 
     Grounded() {
-        return this.jumpToke == this.time.now
+        return this.jumpToken == this.time.now
     }
 
 }
