@@ -5,9 +5,7 @@ class GameScene extends Phaser.Scene {
     preload() {
         this.load.image("Player", "./sprite/Player.png")
         this.load.image("Platform", "./sprite/Platform.png")
-        this.load.image("Platform1", "./sprite/Platform.png")
-        this.load.image("Platform2", "./sprite/Platform.png")
-        this.load.image("Platform3", "./sprite/Platform.png")
+        this.load.image("PlatformY", "./sprite/PlatformY.png")
     }
 
     create() {
@@ -18,41 +16,74 @@ class GameScene extends Phaser.Scene {
         this.player = this.physics.add.sprite(this.game.config.width / 2, this.game.config.height / 2, "Player").setOrigin(0.5, 0.5)
 
         this.player.setBounce(0.9,0)
-        this.player.setCollideWorldBounds(true)
+        //this.player.setCollideWorldBounds(true)
         this.player.body.setFrictionX(0)
 
         // PlatForm
 
         this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
-        this.platform.create(640, 700,"Platform")
+        this.platform.create(640, 720,"Platform")
 
-        this.platform1 = this.physics.add.image(100, 500, "Platform1")
+        this.platform1 = this.physics.add.image(100, 500, "Platform")
             .setImmovable()
-            .setScale(0.5);
+            .setScale(0.5)
+            .setBounce(0.9,0);
         this.platform1.body.setAllowGravity(false)
+        this.platform1.body.setFrictionX(0)
 
         this.physics.add.collider(this.player, this.platform1, () => {
-            this.jumpToken = this.time.now
+            this.jumpToken = this.time.now        
+            this.cameras.main.setViewport(0, 0, 1280, 720);  
         })
 
-        this.platform2 = this.physics.add.image(400, 300, "Platform2")
+        this.platform2 = this.physics.add.image(600, 300, "Platform")
             .setImmovable()
-            .setScale(0.5);
+            .setScale(0.5)
+            .setBounce(0.9,0);
         this.platform2.body.setAllowGravity(false)
+        this.platform2.body.setFrictionX(0)
 
         this.physics.add.collider(this.player, this.platform2, () => {
-            this.jumpToken = this.time.now
+            this.jumpToken = this.time.now      
+            this.cameras.main.setViewport(0, 0, 1280, 720);    
         })
 
-        this.platform3 = this.physics.add.image(600, 100, "Platform2")
+        this.platform3 = this.physics.add.image(800, 100, "Platform")
             .setImmovable()
-            .setScale(0.5);
+            .setScale(0.5)
+            .setBounce(0.9,0);
         this.platform3.body.setAllowGravity(false)
+        this.platform3.body.setFrictionX(0)
 
         this.physics.add.collider(this.player, this.platform3, () => {
-            this.jumpToken = this.time.now
+            this.jumpToken = this.time.now        
+            this.cameras.main.setViewport(0, 0, 1280, 720);    
         })
 
+        this.check = this.physics.add.image(800, -10, "Platform")
+            .setImmovable()
+            .setScale(0.5)
+            .setBounce(0.9,0);
+        this.check.body.setAllowGravity(false)
+        this.check.body.setFrictionX(0)
+
+        this.physics.add.overlap(this.player, this.check, () => {
+            this.jumpToken = this.time.now     
+            this.cameras.main.setViewport(0, 700, 1280, 720);     
+        })
+
+        this.platform4 = this.physics.add.image(900, -200, "Platform")
+            .setImmovable()
+            .setScale(0.5)
+            .setBounce(0.9,0);
+        this.platform4.body.setAllowGravity(false)
+        this.platform4.body.setFrictionX(0)
+
+        this.physics.add.collider(this.player, this.platform4, () => {
+            this.jumpToken = this.time.now        
+            this.cameras.main.setViewport(0, 720, 1280, 720);    
+        })
+    
         // craete ground check zone
         //this.groundCheck = this.add.zone(0, 0).setSize(this.player.width, 5)
         //this.physics.world.enable(this.groundCheck)
@@ -63,7 +94,7 @@ class GameScene extends Phaser.Scene {
         //})
 
         // Collinder
-
+        
         this.physics.add.collider(this.player,this.platform, () => {
             this.jumpToken = this.time.now
         })
@@ -72,15 +103,20 @@ class GameScene extends Phaser.Scene {
         this.jumpTime = new Phaser.Time.TimerEvent({ delay: 1200 })
         this.jumpAble = true
 
+    
         // Keyboard Input
         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
         this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
         this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
+
+        //this.cameras1 = this.cameras.add(0, 0, 1280, 720);
+
+        
+ 
     }
 
     update() {
-        console.log(this.jumpForce)
         this.movement()
         this.Ground()
         //console.log(this.jumpAble)

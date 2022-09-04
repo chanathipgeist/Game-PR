@@ -1,4 +1,4 @@
-var playerSpeed = 250;
+var playerSpeed = 200;
 
 var config = {
     type: Phaser.AUTO,
