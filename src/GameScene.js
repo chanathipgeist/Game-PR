@@ -7,6 +7,7 @@ class GameScene extends Phaser.Scene {
         this.load.image("Player", "./sprite/Player.png")
         this.load.image("Platform", "./sprite/Platform.png")
         this.load.audio('jump', './sound/jump.mp3')
+        this.load.audio('epic', './sound/epic.mp3')
     }
 
     create() {
@@ -16,6 +17,7 @@ class GameScene extends Phaser.Scene {
         // Player
         this.player = this.physics.add.sprite(this.game.config.width / 2, this.game.config.height / 2, "Player").setOrigin(0.5, 0.5)
         this.jump = this.sound.add("jump")
+        this.epic = this.sound.add("epic")
 
         this.player.setBounce(0.9,0)
         //this.player.setCollideWorldBounds(true)
@@ -71,9 +73,13 @@ class GameScene extends Phaser.Scene {
         this.jumpAble = true
 
         // Collinder
-
-        this.physics.add.collider(this.player,this.platform)
-
+        this.cX = 0;
+        this.physics.add.collider(this.player,this.platform, ()=> {
+            if(this.cX === 0 && this.player.y <= -300) {
+                this.epic.play();
+                this.cX++
+            }
+        })
         // set zone scenes 
 
         this.scene1.x = (this.game.config.width / 2);
@@ -100,6 +106,8 @@ class GameScene extends Phaser.Scene {
     update() {
         this.movement()
         console.log(this.space.duration)
+        console.log(this.player.y);
+        
         //this.scene1.x = this.game.config.width;
         //this.scene1.y = this.game.config.height;
     }
@@ -127,7 +135,7 @@ class GameScene extends Phaser.Scene {
             if (this.jumpAble) {
                 this.jump.play()
                 if (this.space.getDuration() >= 1200) {
-                   this.player.setVelocity(this.jumpDir(),-playerSpeed * 5)
+                   this.player.setVelocity(this.jumpDir(),-playerSpeed * 5) 
                     this.space.duration = 0
                     this.jumpAble = false 
                 }
