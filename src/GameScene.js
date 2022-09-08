@@ -17,7 +17,7 @@ class GameScene extends Phaser.Scene {
 
         this.player.setBounce(0.9,0)
         //this.player.setCollideWorldBounds(true)
-        // this.player.body.setFrictionX(0)
+        //this.player.body.setFrictionX(0)
 
         // zone scene
         this.scene4 = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5) 
@@ -58,7 +58,8 @@ class GameScene extends Phaser.Scene {
         this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
         this.platform.create(640, 700,"Platform")
         this.platform.create(0, 500,"Platform")
-        this.platform.create(0, 500,"Platform")
+        this.platform.create(-200, -100,"Platform")
+        this.platform.create(900, -300,"Platform")
         this.platArr = []
 
         for (let i in this.platform.getChildren()) {
