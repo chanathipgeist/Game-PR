@@ -20,20 +20,12 @@ class GameScene extends Phaser.Scene {
         // this.player.body.setFrictionX(0)
 
         // zone scene
-        this.scene1 = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5)
-        this.physics.world.enable(this.scene1)
-        this.scene1.body.setAllowGravity(false)
+        this.scene4 = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5) 
+        this.physics.world.enable(this.scene4)
+        this.scene4.body.setAllowGravity(false)
 
-        this.physics.add.overlap(this.player,this.scene1, () => {
-            this.cameras.main.pan(this.scene1.x, this.scene1.y, 0, 'Power2')
-        })
-
-        this.scene2 = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5)
-        this.physics.world.enable(this.scene2)
-        this.scene2.body.setAllowGravity(false)
-
-        this.physics.add.overlap(this.player,this.scene2, () => {
-            this.cameras.main.pan(this.scene2.x, this.scene2.y, 0, 'Power2')
+        this.physics.add.overlap(this.player,this.scene4, () => {
+            this.cameras.main.pan(this.scene3.x, this.scene3.y, 0, 'Power2')
         })
 
         this.scene3 = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5)
@@ -44,20 +36,28 @@ class GameScene extends Phaser.Scene {
             this.cameras.main.pan(this.scene3.x, this.scene3.y, 0, 'Power2')
         })
 
-        this.scene4 = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5) 
-        this.physics.world.enable(this.scene4)
-        this.scene4.body.setAllowGravity(false)
+        this.scene2 = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5)
+        this.physics.world.enable(this.scene2)
+        this.scene2.body.setAllowGravity(false)
 
-        this.physics.add.overlap(this.player,this.scene4, () => {
-            this.cameras.main.pan(this.scene3.x, this.scene3.y, 0, 'Power2')
+        this.physics.add.overlap(this.player,this.scene2, () => {
+            this.cameras.main.pan(this.scene2.x, this.scene2.y, 0, 'Power2')
         })
 
+        this.scene1 = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5)
+        this.physics.world.enable(this.scene1)
+        this.scene1.body.setAllowGravity(false)
+
+        this.physics.add.overlap(this.player,this.scene1, () => {
+            this.cameras.main.pan(this.scene1.x, this.scene1.y, 0, 'Power2')
+        })
         //this.cameras.main.startFollow(this.player);
         
         // PlatForm
 
         this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
         this.platform.create(640, 700,"Platform")
+        this.platform.create(0, 500,"Platform")
         this.platform.create(0, 500,"Platform")
         this.platArr = []
 
