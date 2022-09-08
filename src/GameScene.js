@@ -107,6 +107,10 @@ class GameScene extends Phaser.Scene {
         this.movement()
         console.log(this.space.duration)
         console.log(this.player.y);
+
+        if(this.player.y > -300)  {
+            this.epic.pause();
+        }
         
         //this.scene1.x = this.game.config.width;
         //this.scene1.y = this.game.config.height;
