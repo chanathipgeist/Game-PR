@@ -74,14 +74,7 @@ class GameScene extends Phaser.Scene {
 
         // Collinder
         this.cX = 0;
-        this.physics.add.collider(this.player,this.platform, ()=> {
-            if(this.cX === 0 && this.player.y <= -300) {
-                this.epic.play();
-                this.cX++
-            } else {
-                this.epic.pause();
-            }
-        })
+        this.physics.add.collider(this.player,this.platform)
         // set zone scenes 
 
         this.scene1.x = (this.game.config.width / 2);
