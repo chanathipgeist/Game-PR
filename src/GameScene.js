@@ -75,7 +75,7 @@ class GameScene extends Phaser.Scene {
         this.physics.add.overlap(this.player,this.scene1, () => {
             this.cameras.main.pan(this.scene1.x, this.scene1.y, 0, 'Power2')
         })
-        //this.cameras.main.startFollow(this.player);
+        // this.cameras.main.startFollow(this.player);
         
         // PlatForm
 
@@ -93,11 +93,18 @@ class GameScene extends Phaser.Scene {
         this.jumpAble = true
 
         //npc
-        this.npc = this.physics.add.image(200, 400, "npc").setImmovable().setScale(0.5)
-        this.npc.body.setAllowGravity(false)
-        this.physics.add.overlap(this.player, this.npc, () => {
+        this.npcLevel1 = this.physics.add.image(200, 400, "npc").setImmovable().setScale(0.5)
+        this.npcLevel1.body.setAllowGravity(false)
+        this.physics.add.overlap(this.player, this.npcLevel1, () => {
             this.talkable = true;
-            this.talk()
+            this.talkLevel1()
+        });
+
+        this.npcLevel2 = this.physics.add.image(600,  300 + -720, "npc").setImmovable().setScale(0.5)
+        this.npcLevel2.body.setAllowGravity(false)
+        this.physics.add.overlap(this.player, this.npcLevel2, () => {
+            this.talkable = true;
+            this.talkLevel2()
         });
 
         this.talkable = false;
@@ -135,9 +142,19 @@ class GameScene extends Phaser.Scene {
         //this.scene1.y = this.game.config.height;
     }
 
-    talk() {
+    talkLevel1() {
         if(this.talkable && this.enter.isDown) {
-            var npcTalk = this.add.text(this.npc.x - 50, this.npc.y - 190, 'Hello Fennec')
+            var npcTalk = this.add.text(this.npcLevel1.x - 50, this.npcLevel1.y - 190, 'Hello Fennec')
+            setTimeout(function(){
+                npcTalk.destroy()
+            }, 2000)
+            //console.log('talking')
+        }
+    }
+
+    talkLevel2() {
+        if(this.talkable && this.enter.isDown) {
+            var npcTalk = this.add.text(this.npcLevel2.x - 50, this.npcLevel2.y - 190, 'Hard?')
             setTimeout(function(){
                 npcTalk.destroy()
             }, 2000)
@@ -149,9 +166,11 @@ class GameScene extends Phaser.Scene {
         if (this.Grounded() && this.player.body.velocity.y == 0 ){
             if (!this.space.isDown) {
                 if (this.left.isDown) {
+                    this.player.setFlipX(false)
                     this.player.setVelocityX(-playerSpeed)
                 }
                 else if (this.right.isDown){
+                    this.player.setFlipX(true)
                     this.player.setVelocityX(playerSpeed)
                 } else {
                     this.player.setVelocityX(0)
