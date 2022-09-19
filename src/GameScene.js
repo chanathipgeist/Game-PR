@@ -6,18 +6,38 @@ class GameScene extends Phaser.Scene {
     preload() {
         this.load.image("Player", "./sprite/Player.png")
         this.load.image("Platform", "./sprite/Platform.png")
-        this.load.audio('jump', './sound/jump.mp3')
-        this.load.audio('epic', './sound/epic.mp3')
+        this.load.image("lv2", "./sprite/lv2.png")
+        this.load.image("lv3", "./sprite/lv3.png")
+        this.load.image("npc", "./sprite/npc.jpg")
     }
 
     create() {
-        this.add.text(20, 20, "TEST")
-        this.jumpdebug = this.add.text(20,40)
+        //bg
+        this.add.image(0, -720 * 2, 'lv2').setOrigin(0, 0)
+        this.add.image(0, -720, 'lv3').setOrigin(0, 0)
+        this.add.image(0, 0, 'lv2').setOrigin(0, 0)
+
+        this.dialogSet = [
+            "Only the worthy one can get that water. Do you thing you're worth enought?",
+            "You can buy my drink for 2 buck instead for that water",
+            "This is boring",
+            "*Yawn*"
+        ]
+        
+        this.text  = this.dialogSet[0].split("")
+        this.textSet = []
+        for (const i in this.text) {
+            this.textSet.push(this.add.text( 20 + i * 10 , 40 , this.text[i]).setAlpha(0))
+        }
+        
+        
+        this.dialog = this.add.text(0,0).setOrigin(0.5,0.5).setAlpha(0)
 
         // Player
-        this.player = this.physics.add.sprite(this.game.config.width / 2, this.game.config.height / 2, "Player").setOrigin(0.5, 0.5)
-        this.jump = this.sound.add("jump")
-        this.epic = this.sound.add("epic")
+        this.player = this.physics.add.sprite(this.game.config.width / 2, this.game.config.height / 2, "Player")
+        .setOrigin(0.5, 0.5)
+        .setScale(0.08)
+        .setSize(1100,1400)
 
         this.player.setBounce(0.9,0)
         //this.player.setCollideWorldBounds(true)
@@ -60,7 +80,7 @@ class GameScene extends Phaser.Scene {
         // PlatForm
 
         this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
-        this.platform.create(640, 700,"Platform")
+        this.platform.create(640, 752,"Platform")
         this.platform.create(0, 500,"Platform")
         this.platform.create(-200, -100,"Platform")
         this.platform.create(900, -300,"Platform")
@@ -71,6 +91,16 @@ class GameScene extends Phaser.Scene {
         }
 
         this.jumpAble = true
+
+        //npc
+        this.npc = this.physics.add.image(200, 400, "npc").setImmovable().setScale(0.5)
+        this.npc.body.setAllowGravity(false)
+        this.physics.add.overlap(this.player, this.npc, () => {
+            this.talkable = true;
+            this.talk()
+        });
+
+        this.talkable = false;
 
         // Collinder
         this.cX = 0;
@@ -100,70 +130,52 @@ class GameScene extends Phaser.Scene {
 
     update() {
         this.movement()
-        console.log(this.space.duration)
-        console.log(this.player.y);
-
+        //console.log(this.talkable)
         //this.scene1.x = this.game.config.width;
         //this.scene1.y = this.game.config.height;
     }
 
+    talk() {
+        if(this.talkable && this.enter.isDown) {
+            var npcTalk = this.add.text(this.npc.x - 50, this.npc.y - 190, 'Hello Fennec')
+            setTimeout(function(){
+                npcTalk.destroy()
+            }, 2000)
+            //console.log('talking')
+        }
+    }
+
     movement() {
-        // X axis Movement
-        if (this.Grounded()){
-            this.dur = this.space.duration
+        if (this.Grounded() && this.player.body.velocity.y == 0 ){
             if (!this.space.isDown) {
-               if (this.left.isDown) { 
-                    this.player.setFlipX(true)
+                if (this.left.isDown) {
                     this.player.setVelocityX(-playerSpeed)
-                } else if (this.right.isDown) {
-                    this.player.setFlipX(false)
+                }
+                else if (this.right.isDown){
                     this.player.setVelocityX(playerSpeed)
                 } else {
                     this.player.setVelocityX(0)
-                } 
+                }
             } else {
                 this.player.setVelocityX(0)
             }
-            
-            // Y axis Movement
-            if (!this.space.isDown) this.jumpAble = true
-            if (this.jumpAble) {
-                this.jump.play()
-                if (this.space.getDuration() >= 1200) {
-                   this.player.setVelocity(this.jumpDir(),-playerSpeed * 5) 
+
+            if (this.space.isDown && this.jumpAble) {
+                if (this.space.getDuration() > 1200) {
+                    this.player.setVelocity(this.jumpDir() , -playerSpeed * 5)
                     this.space.duration = 0
-                    this.jumpAble = false 
+                    this.jumpAble = false
                 }
-                switch (true) {
-                case (this.dur / 240) == 0 :
-                    break
-                case (this.dur / 240) < 1 :
-                    this.player.setVelocity(this.jumpDir(),-playerSpeed)
-                    this.space.duration = 0
-                    this.jumpAble = false
-                    break
-                case (this.dur / 240) < 2 :
-                    this.player.setVelocity(this.jumpDir(),-playerSpeed * 2)
-                    this.space.duration = 0
-                    this.jumpAble = false
-                    break
-                case (this.dur / 240) < 3 :
-                    this.player.setVelocity(this.jumpDir(),-playerSpeed * 3)
-                    this.space.duration = 0
-                    this.jumpAble = false
-                    break
-                case (this.dur / 240) < 4 :
-                    this.player.setVelocity(this.jumpDir(),-playerSpeed * 4)
-                    this.space.duration = 0
-                    this.jumpAble = false
-                    break
+            } else if (Phaser.Input.Keyboard.JustUp(this.space) && this.jumpAble) {
+                this.player.setVelocity(this.jumpDir() , -playerSpeed * this.space.duration/240)
+                this.space.duration = 0
+                this.jumpAble = false
+
+            } else if (this.space.isUp){
+                this.jumpAble = true
             }
 
-                
-            }
-            
-            
-        } 
+        }
     }
 
 
@@ -173,6 +185,42 @@ class GameScene extends Phaser.Scene {
 
     jumpDir() {
         return !this.left.isDown ? this.right.isDown ? playerSpeed : 0 : -playerSpeed 
+    }
+
+    textAnimate(text) {
+        let i = 0
+        let start = setInterval(() => {
+            if (i < text.length) {
+                this.tweens.add({
+                    targets: text[i],
+                    y: text[i].y - 5,
+                    alpha: 1,
+                    duration: 300,
+                    ease: 'Power2'
+                }, this)
+                i++
+            } else {
+                clearInterval(start)
+            }
+        }, 20)
+        
+        setTimeout(() =>{
+            i = 0
+            let stop = setInterval(() => {
+                if (i < text.length) {
+                    this.tweens.add({
+                        targets: text[i],
+                        y: text[i].y + 5,
+                        alpha: 0,
+                        duration: 300,
+                        ease: 'Power2'
+                    }, this)
+                    i++
+                } else {
+                    clearInterval(stop)
+                }
+            }, 20)
+        },4000)
     }
 
 }
