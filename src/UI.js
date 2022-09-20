@@ -4,10 +4,8 @@ class UI extends Phaser.Scene {
         Phaser.Scene.call(this, { key: 'UI', active: true });
     }
     create() {
-
-        this.add.text(20,20,"TEST")
+        this.timeText = this.add.text(20, 20);
         
-
         this.dialogSet = [
             "Only the worthy one can get that water. Do you thing you're worth enought?",
             "You can buy my drink for 2 buck instead for that water",
@@ -40,6 +38,14 @@ class UI extends Phaser.Scene {
             this.textAnimate(this.dialogSet[Math.floor(Math.random()*this.dialogSet.length)])
         }
         )
+        
+    }
+    update(time, delta) {
+        this.minute = Math.floor(time / 1000) / 60
+        this.second = Math.floor(time/1000) % 60;
+        this.minuteTwoUnit = parseInt(this.minute, 10) > 9? "" + parseInt(this.minute, 10): "0" + parseInt(this.minute, 10)
+        this.secondTwoUnit = this.second > 9 ? "" + this.second: "0" + this.second;
+        this.timeText.setText(this.minuteTwoUnit + ':' + this.secondTwoUnit);
     }
 
     textAnimate(text) {
