@@ -9,10 +9,10 @@ var config = {
         arcade: {
                 gravity: { 
                     y: 1800 },
-            debug : true
+            debug : false
         }
     },
-    scene: [Cave]
+    scene: [menu, GameScene, UI]
 };
 
 var game = new Phaser.Game(config);

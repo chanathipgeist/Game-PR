@@ -1,4 +1,3 @@
-
 class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: "GameScene" });
@@ -6,29 +5,34 @@ class GameScene extends Phaser.Scene {
     preload() {
         this.load.image("Platform", "./sprite/Platform.png")
         this.load.image("PlatformY", "./sprite/PlatformY.png")
+        this.load.image("lv1", './sprite/lv1.png')
         this.load.image("lv2", "./sprite/lv2.png")
         this.load.image("lv3", "./sprite/lv3.png")
+        this.load.image("caveWall", './sprite/caveWall.png');
+        this.load.image("grassP", './sprite/grassPlatform.png')
         this.load.spritesheet('Player', './sprite/fur.png', {
-            frameWidth: 3072 / 3, frameHeight: 1024
+            frameWidth: 270 / 3, frameHeight: 90
         })
         this.load.spritesheet('Jump', './sprite/jump.png', {
-            frameWidth: 10240 / 10, frameHeight: 1024
+            frameWidth: 900 / 10, frameHeight: 90
         })
     }
 
     create() {
         //bg
+        this.add.image(1280, -720 * 2, 'caveWall').setOrigin(0, 0)
         this.add.image(0, -720 * 2, 'lv3').setOrigin(0, 0)
         this.add.image(0, -720, 'lv2').setOrigin(0, 0)
+        this.add.image(0, 0, 'lv1').setOrigin(0, 0)
 
         // Player
-        this.player = this.physics.add.sprite(this.game.config.width / 2, -1000, "Player")
-        .setScale(0.15)
-        .setSize(670, 600)
-        .setOffset(230,250)
+        this.player = this.physics.add.sprite(178, 640, "Player")
+        .setSize(50, 70)
+        .setOffset(20, 21)
         // .setSize(1100,1400)
-
+                
         this.player.setBounce(0.9,0)
+        
 
         this.anims.create({
             key: 'playerAni',
@@ -62,6 +66,15 @@ class GameScene extends Phaser.Scene {
         //this.player.setCollideWorldBounds(true)
         //this.player.body.setFrictionX(0)
 
+        //cave scene
+        this.caveZone = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5)
+        this.physics.world.enable(this.caveZone)
+        this.caveZone.body.setAllowGravity(false)
+
+        this.physics.add.overlap(this.player,this.caveZone, () => {
+            this.cameras.main.pan(this.caveZone.x, this.caveZone.y, 0, 'Power2')
+        })
+
         // zone scene
         this.scene4 = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5) 
         this.physics.world.enable(this.scene4)
@@ -91,36 +104,47 @@ class GameScene extends Phaser.Scene {
         this.physics.world.enable(this.scene1)
         this.scene1.body.setAllowGravity(false)
 
-        this.physics.add.overlap(this.player,this.scene1, () => {
+        this.scene1o = this.physics.add.overlap(this.player,this.scene1, () => {
             this.cameras.main.pan(this.scene1.x, this.scene1.y, 0, 'Power2')
         })
         // this.cameras.main.startFollow(this.player);
         
+
+
         // PlatForm
-        this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
+        this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5).setAlpha(-1)
         this.platform.create(640, 752,"Platform")
-        this.platform.create(640, -690, "Platform") // stand on lv3
+        this.platform.create(640+1280, -690, "Platform") // stand on lv3.2
         this.platform.create(-32, -1080, "PlatformY")
-        this.platform.create(1322, -1080, "PlatformY")
         this.platArr = []
 
         for (let i in this.platform.getChildren()) {
             this.platArr[i] = this.platform.getChildren()[i].body.top
         }
 
-        this.jumpAble = true
+        this.grassPlatform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
+        this.grassPlatform.create(640, -850, 'grassP');
+        this.grassPlatform.create(350, -950, 'grassP');
+        this.grassPlatform.create(120, -1100, 'grassP');
+        this.grassPlatform.create(450, -1300, 'grassP');
+        this.grassPlatform.create(750, -1500, 'grassP');
+        this.grassPlatform.create(850, -1250, 'grassP');
+        this.grassPlatform.create(1100, -1050, 'grassP');
+        this.grassPlatform.create(1400, -950, 'grassP');
+        this.grassPlatform.create(1700, -800, 'grassP');
+        this.grassPlatArr = []
 
-        //cave
-        this.cave = this.physics.add.image(1200, -900, "PlatformY").setScale(0.5)
-        this.cave.body.setAllowGravity(false)
-        this.physics.add.overlap(this.cave, this.player, () => {
-            console.log('In cave')
-            this.scene.start('Cave')
-        })
+        for (let i in this.grassPlatform.getChildren()) {
+            this.grassPlatArr[i] = this.grassPlatform.getChildren()[i].body.top
+        }
+
+
+        this.jumpAble = true
 
         // Collinder
         this.cX = 0;
         this.physics.add.collider(this.player,this.platform)
+        this.physics.add.collider(this.player, this.grassPlatform)
         // set zone scenes 
 
         this.scene1.x = (this.game.config.width / 2);
@@ -135,6 +159,9 @@ class GameScene extends Phaser.Scene {
         this.scene4.x = (this.game.config.width / 2);
         this.scene4.y = -(this.game.config.height / 2) * 5;
 
+        this.caveZone.x = (this.game.config.width / 2) + 1280;
+        this.caveZone.y = this.scene3.y
+
         // Keyboard Input
         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
         this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
@@ -143,12 +170,26 @@ class GameScene extends Phaser.Scene {
         this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 
+        this.dim = this.add.rectangle(0,0, this.game.config.width * 2 , this.game.config.height * 2 , 0x000000 )
+        .setOrigin(0,0)
+        .setAlpha(0)
+        
+        this.load.once('complete' , this.sceneStart, this)
+        this.load.start()
     }
 
     update() {
-        this.movement()
-        // this.admin()
-
+        if (this.loaded){
+            this.movement()
+            if (Phaser.Input.Keyboard.JustDown(this.enter)) {
+                this.events.emit('Talk')
+            }
+        }
+        console.log(this.scene1.active);
+        //this.admin()
+        //console.log(`player x ${this.player.x} player y ${this.player.y}`);
+        //console.log(this.player.body.height);
+        //console.log(this.player.body.width);
         //console.log(this.talkable)
         //this.scene1.x = this.game.config.width;
         //this.scene1.y = this.game.config.height;
@@ -198,7 +239,7 @@ class GameScene extends Phaser.Scene {
 
 
     Grounded() {
-        return this.platArr.includes(this.player.body.bottom)
+        return this.platArr.includes(this.player.body.bottom) || this.grassPlatArr.includes(this.player.body.bottom)
     }
 
     jumpDir() {
@@ -262,4 +303,31 @@ class GameScene extends Phaser.Scene {
         }
     }
 
+    sceneStart() {
+    //     this.cameras.main.startFollow(this.player)
+    //     this.cameras.main.zoomTo(3.5 ,0)
+    //     this.player.anims.play('playerAni', true);
+    //     this.scene1o.active = false;
+    //     this.tweens.add({
+    //         delay: 700,
+    //         targets: this.dim,
+    //         alpha: 0,
+    //         duration: 1500
+    //     })
+    //     this.tweens.add({
+    //         delay: 800,
+    //         targets: this.player,
+    //         x: this.player.x + 100,
+    //         duration: 2000
+    //     })
+    //     setTimeout(() => {
+    //         this.cameras.main.stopFollow(this.player)
+    //         this.cameras.main.pan(this.scene1.x, this.scene1.y, 500, 'Power2')
+    //         this.cameras.main.zoomTo(1,500)
+    //         this.player.anims.play('playerAni', false)
+    //         this.scene1o.active = true;
+    //         this.loaded = true
+    //     },2500)
+        this.loaded = true;
+    }
 }
