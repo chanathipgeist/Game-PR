@@ -26,13 +26,15 @@ class GameScene extends Phaser.Scene {
         this.add.image(0, 0, 'lv1').setOrigin(0, 0)
 
         // Player
-        this.player = this.physics.add.sprite(178, 640, "Player")
+        this.player = this.physics.add.sprite(185, 647, "Player")
         .setSize(50, 70)
         .setOffset(20, 21)
         // .setSize(1100,1400)
                 
         this.player.setBounce(0.9,0)
         
+        //text
+        this.finalTimeText = this.add.text(300 + 1280, -710 * 2);
 
         this.anims.create({
             key: 'playerAni',
@@ -126,8 +128,8 @@ class GameScene extends Phaser.Scene {
         this.grassPlatform.create(640, -850, 'grassP');
         this.grassPlatform.create(350, -950, 'grassP');
         this.grassPlatform.create(120, -1100, 'grassP');
-        this.grassPlatform.create(450, -1300, 'grassP');
-        this.grassPlatform.create(750, -1500, 'grassP');
+        this.grassPlatform.create(400, -1300, 'grassP');
+        this.grassPlatform.create(720, -1500, 'grassP');
         this.grassPlatform.create(850, -1250, 'grassP');
         this.grassPlatform.create(1100, -1050, 'grassP');
         this.grassPlatform.create(1400, -950, 'grassP');
@@ -138,6 +140,14 @@ class GameScene extends Phaser.Scene {
             this.grassPlatArr[i] = this.grassPlatform.getChildren()[i].body.top
         }
 
+
+        this.finnish = this.physics.add.image(2100, -750, 'grassP').setOrigin(0.5,0.5).setImmovable()
+        this.finnish.body.setAllowGravity(false)
+
+        this.physics.add.collider(this.player, this.finnish, () => {
+            this.final++;
+            this.finnish.destroy();
+        })
 
         this.jumpAble = true
 
@@ -169,30 +179,48 @@ class GameScene extends Phaser.Scene {
         this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
         this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.f = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
         this.dim = this.add.rectangle(0,0, this.game.config.width * 2 , this.game.config.height * 2 , 0x000000 )
         .setOrigin(0,0)
         .setAlpha(0)
-        
+
+        this.final = 0
+
         this.load.once('complete' , this.sceneStart, this)
         this.load.start()
     }
 
-    update() {
+    update(time) {
         if (this.loaded){
             this.movement()
             if (Phaser.Input.Keyboard.JustDown(this.enter)) {
                 this.events.emit('Talk')
             }
+            if (Phaser.Input.Keyboard.JustDown(this.f)) {
+                this.events.emit('start')
+            }
         }
-        console.log(this.scene1.active);
-        //this.admin()
-        //console.log(`player x ${this.player.x} player y ${this.player.y}`);
+
+        //console.log(this.scene1.active);
+        this.admin()
+        // console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
         //console.log(this.talkable)
         //this.scene1.x = this.game.config.width;
         //this.scene1.y = this.game.config.height;
+    }
+    
+    finalTime(time) {
+        this.minute = Math.floor(time / 1000) / 60
+        this.second = Math.floor(time/1000) % 60;
+        this.minuteTwoUnit = parseInt(this.minute, 10) > 9? "" + parseInt(this.minute, 10): "0" + parseInt(this.minute, 10)
+        this.secondTwoUnit = this.second > 9 ? "" + this.second: "0" + this.second;
+        if(this.final === 0) {
+            this.finalTimeText.setText('final time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
+            return;
+        }
     }
 
     movement() {
@@ -304,30 +332,30 @@ class GameScene extends Phaser.Scene {
     }
 
     sceneStart() {
-    //     this.cameras.main.startFollow(this.player)
-    //     this.cameras.main.zoomTo(3.5 ,0)
-    //     this.player.anims.play('playerAni', true);
-    //     this.scene1o.active = false;
-    //     this.tweens.add({
-    //         delay: 700,
-    //         targets: this.dim,
-    //         alpha: 0,
-    //         duration: 1500
-    //     })
-    //     this.tweens.add({
-    //         delay: 800,
-    //         targets: this.player,
-    //         x: this.player.x + 100,
-    //         duration: 2000
-    //     })
-    //     setTimeout(() => {
-    //         this.cameras.main.stopFollow(this.player)
-    //         this.cameras.main.pan(this.scene1.x, this.scene1.y, 500, 'Power2')
-    //         this.cameras.main.zoomTo(1,500)
-    //         this.player.anims.play('playerAni', false)
-    //         this.scene1o.active = true;
-    //         this.loaded = true
-    //     },2500)
+        // this.cameras.main.startFollow(this.player)
+        // this.cameras.main.zoomTo(3.5 ,0)
+        // this.player.anims.play('playerAni', true);
+        // this.scene1o.active = false;
+        // this.tweens.add({
+        //     delay: 700,
+        //     targets: this.dim,
+        //     alpha: 0,
+        //     duration: 1500
+        // })
+        // this.tweens.add({
+        //     delay: 800,
+        //     targets: this.player,
+        //     x: this.player.x + 100,
+        //     duration: 2000
+        // })
+        // setTimeout(() => {
+        //     this.cameras.main.stopFollow(this.player)
+        //     this.cameras.main.pan(this.scene1.x, this.scene1.y, 500, 'Power2')
+        //     this.cameras.main.zoomTo(1,500)
+        //     this.player.anims.play('playerAni', false)
+        //     this.scene1o.active = true;
+        //     this.loaded = true
+        // },2500)
         this.loaded = true;
     }
 }
