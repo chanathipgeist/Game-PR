@@ -58,7 +58,7 @@ class UI extends Phaser.Scene {
         )
     }   
     
-    update(time, delta) {
+    update() {
         this.checkTime++;
         //this.timing.delay = time
         // this.timer(time)
@@ -71,8 +71,7 @@ class UI extends Phaser.Scene {
         // console.log(this.timing.getElapsed());
     }
     
-
-    timer(time) {
+    timer() {
         this.elapsedTimeToMinSec(this.timing.getElapsed())
         this.timeText.setText('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
     }
