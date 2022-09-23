@@ -38,50 +38,13 @@ class UI extends Phaser.Scene {
             this.textAnimate(this.dialogSet[Math.floor(Math.random()*this.dialogSet.length)])
         }
         )
-
-        this.timing = this.time.addEvent({
-            delay: 0,  
-            callback: (()=>{
-                console.log("timer has finished!");
-            }),
-        });
-
-        this.c = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
-    
-        this.timing.paused = true
-
-        this.UIscene.events.on('start', () => {
-            this.timing.delay = this.checkTime
-            // this.timer(time)
-            this.timing.paused = false
-        }
-        )
     }   
     
     update() {
-        this.checkTime++;
-        //this.timing.delay = time
-        // this.timer(time)
-        if(this.c.isDown) {
-            this.timing.paused = true
-            this.elapsedTimeToMinSec(this.timing.getElapsed())
-            console.log('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
-        }
-        this.timer(this.timing.getElapsed())
+        
         // console.log(this.timing.getElapsed());
     }
     
-    timer() {
-        this.elapsedTimeToMinSec(this.timing.getElapsed())
-        this.timeText.setText('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
-    }
-
-    elapsedTimeToMinSec(elapsedTime) {
-        this.minute = Math.floor(elapsedTime / 1000) / 60
-        this.second = Math.floor(elapsedTime /1000) % 60;
-        this.minuteTwoUnit = parseInt(this.minute, 10) > 9? "" + parseInt(this.minute, 10): "0" + parseInt(this.minute, 10)
-        this.secondTwoUnit = this.second > 9 ? "" + this.second: "0" + this.second;
-    }
 
     textAnimate(text) {
         this.dialog.setText(text).setOrigin(0.5,0.5).setOrigin(0,0).setPosition(20,this.game.config.height - 120).setAlpha(0).setFontSize(25).setFontStyle("Bold")

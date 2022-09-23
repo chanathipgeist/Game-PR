@@ -25,8 +25,14 @@ class GameScene extends Phaser.Scene {
         this.add.image(0, -720, 'lv2').setOrigin(0, 0)
         this.add.image(0, 0, 'lv1').setOrigin(0, 0)
 
+        this.timeText1 = this.add.text(20, 20);
+        this.timeText2 = this.add.text(20, 20);
+        this.timeText3 = this.add.text(20, 20);
+        this.timeText4 = this.add.text(20, 20);
+        this.timeTextCave = this.add.text(20, 20);
+
         // Player
-        this.player = this.physics.add.sprite(185, 647, "Player")
+        this.player = this.physics.add.sprite(600, -1100, "Player")
         .setSize(50, 70)
         .setOffset(20, 21)
         // .setSize(1100,1400)
@@ -110,8 +116,7 @@ class GameScene extends Phaser.Scene {
             this.cameras.main.pan(this.scene1.x, this.scene1.y, 0, 'Power2')
         })
         // this.cameras.main.startFollow(this.player);
-        
-
+    
 
         // PlatForm
         this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5).setAlpha(-1)
@@ -145,7 +150,6 @@ class GameScene extends Phaser.Scene {
         this.finnish.body.setAllowGravity(false)
 
         this.physics.add.collider(this.player, this.finnish, () => {
-            this.final++;
             this.finnish.destroy();
         })
 
@@ -172,6 +176,22 @@ class GameScene extends Phaser.Scene {
         this.caveZone.x = (this.game.config.width / 2) + 1280;
         this.caveZone.y = this.scene3.y
 
+        //posText
+        this.timeTextCave.x = this.caveZone.x -600 ;
+        this.timeTextCave.y = this.caveZone.y -350;
+
+        this.timeText4.x = this.scene4.x -600 ;
+        this.timeText4.y = this.scene4.y -350;
+
+        this.timeText3.x = this.scene3.x -600 ;
+        this.timeText3.y = this.scene3.y -350;
+
+        this.timeText2.x = this.scene2.x -600 ;
+        this.timeText2.y = this.scene2.y -350;
+
+        this.timeText1.x = this.scene1.x -600 ;
+        this.timeText1.y = this.scene1.y -350;
+
         // Keyboard Input
         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
         this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
@@ -179,31 +199,51 @@ class GameScene extends Phaser.Scene {
         this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
         this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.f = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+
+        this.c = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
+        this.f = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
+    
+        this.timing = this.time.addEvent({
+            delay: 0,  
+            callback: (()=>{
+                console.log("timer has finished!");
+            }),
+        });
+
+        this.timing.paused = true
 
         this.dim = this.add.rectangle(0,0, this.game.config.width * 2 , this.game.config.height * 2 , 0x000000 )
         .setOrigin(0,0)
         .setAlpha(0)
-
-        this.final = 0
 
         this.load.once('complete' , this.sceneStart, this)
         this.load.start()
     }
 
     update(time) {
+        this.checkTime++
         if (this.loaded){
             this.movement()
             if (Phaser.Input.Keyboard.JustDown(this.enter)) {
                 this.events.emit('Talk')
             }
-            if (Phaser.Input.Keyboard.JustDown(this.f)) {
-                this.events.emit('start')
+            //if (Phaser.Input.Keyboard.JustDown(this.f)) {
+              //  this.events.emit('start')
+            //}
+            if(this.f.isDown) {        
+                this.timing.delay = this.checkTime;
+                this.elapsedTimeToMinSec(this.timing.getElapsed())
+                this.timing.paused = false
             }
+    
+            if(this.c.isDown) {
+                this.timing.paused = true
+                console.log('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
+            }
+            this.timer()
         }
-
         //console.log(this.scene1.active);
-        this.admin()
+        //this.admin()
         // console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
@@ -211,16 +251,21 @@ class GameScene extends Phaser.Scene {
         //this.scene1.x = this.game.config.width;
         //this.scene1.y = this.game.config.height;
     }
-    
-    finalTime(time) {
-        this.minute = Math.floor(time / 1000) / 60
-        this.second = Math.floor(time/1000) % 60;
+
+    timer() {
+        this.elapsedTimeToMinSec(this.timing.getElapsed())
+        this.timeText1.setText('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
+        this.timeText2.setText('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
+        this.timeText3.setText('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
+        this.timeText4.setText('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
+        this.timeTextCave.setText('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
+    }
+
+    elapsedTimeToMinSec(elapsedTime) {
+        this.minute = Math.floor(elapsedTime / 1000) / 60
+        this.second = Math.floor(elapsedTime /1000) % 60;
         this.minuteTwoUnit = parseInt(this.minute, 10) > 9? "" + parseInt(this.minute, 10): "0" + parseInt(this.minute, 10)
         this.secondTwoUnit = this.second > 9 ? "" + this.second: "0" + this.second;
-        if(this.final === 0) {
-            this.finalTimeText.setText('final time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
-            return;
-        }
     }
 
     movement() {
