@@ -151,6 +151,7 @@ class GameScene extends Phaser.Scene {
 
         this.physics.add.collider(this.player, this.finnish, () => {
             this.finnish.destroy();
+            this.timing.paused = true
         })
 
         this.jumpAble = true
@@ -176,7 +177,7 @@ class GameScene extends Phaser.Scene {
         this.caveZone.x = (this.game.config.width / 2) + 1280;
         this.caveZone.y = this.scene3.y
 
-        //posText
+        //posText 
         this.timeTextCave.x = this.caveZone.x -600 ;
         this.timeTextCave.y = this.caveZone.y -350;
 
@@ -236,10 +237,10 @@ class GameScene extends Phaser.Scene {
                 this.timing.paused = false
             }
     
-            if(this.c.isDown) {
-                this.timing.paused = true
-                console.log('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
-            }
+            //if(this.c.isDown) {
+            //    this.timing.paused = true
+            //    console.log('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
+           // }
             this.timer()
         }
         //console.log(this.scene1.active);
