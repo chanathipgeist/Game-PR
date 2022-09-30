@@ -152,6 +152,7 @@ class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.finnish, () => {
             this.finnish.destroy();
             this.timing.paused = true
+            console.log(this.timeText());
         })
 
         this.jumpAble = true
@@ -221,16 +222,13 @@ class GameScene extends Phaser.Scene {
         this.load.start()
     }
 
-    update(time) {
+    update() {
         this.checkTime++
         if (this.loaded){
             this.movement()
             if (Phaser.Input.Keyboard.JustDown(this.enter)) {
                 this.events.emit('Talk')
             }
-            //if (Phaser.Input.Keyboard.JustDown(this.f)) {
-              //  this.events.emit('start')
-            //}
             if(this.f.isDown) {        
                 this.timing.delay = this.checkTime;
                 this.elapsedTimeToMinSec(this.timing.getElapsed())
@@ -244,7 +242,7 @@ class GameScene extends Phaser.Scene {
             this.timer()
         }
         //console.log(this.scene1.active);
-        //this.admin()
+        // this.admin()
         // console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
@@ -255,11 +253,15 @@ class GameScene extends Phaser.Scene {
 
     timer() {
         this.elapsedTimeToMinSec(this.timing.getElapsed())
-        this.timeText1.setText('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
-        this.timeText2.setText('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
-        this.timeText3.setText('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
-        this.timeText4.setText('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
-        this.timeTextCave.setText('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
+        this.timeText1.setText(this.timeText());
+        this.timeText2.setText(this.timeText());
+        this.timeText3.setText(this.timeText());
+        this.timeText4.setText(this.timeText());
+        this.timeTextCave.setText(this.timeText());
+    }
+
+    timeText() {
+        return 'Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit
     }
 
     elapsedTimeToMinSec(elapsedTime) {
