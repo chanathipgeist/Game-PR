@@ -19,7 +19,7 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
-        //bg
+        //bg scene
         this.add.image(1280, -720 * 2, 'caveWall').setOrigin(0, 0)
         this.add.image(0, -720 * 2, 'lv3').setOrigin(0, 0)
         this.add.image(0, -720, 'lv2').setOrigin(0, 0)
