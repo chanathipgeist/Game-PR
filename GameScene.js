@@ -3,23 +3,24 @@ class GameScene extends Phaser.Scene {
         super({ key: "GameScene" });
     }
     preload() {
-        this.load.image("Platform", "./sprite/Platform.png")
-        this.load.image("PlatformY", "./sprite/PlatformY.png")
-        this.load.image("lv1", './sprite/lv1.png')
-        this.load.image("lv2", "./sprite/lv2.png")
-        this.load.image("lv3", "./sprite/lv3.png")
-        this.load.image("caveWall", './sprite/caveWall.png');
-        this.load.image("grassP", './sprite/grassPlatform.png')
-        this.load.spritesheet('Player', './sprite/fur.png', {
+        this.load.image("Platform", "./img/element/Platform.png")
+        this.load.image("ground", "./img/element/ground.png")
+        this.load.image("lv1", './img/bg/lv1.png')
+        this.load.image("lv2", "./img/bg/lv2.png")
+        this.load.image("lv3", "./img/bg/lv3.png")
+        this.load.image("lv4", "./img/bg/lv4.jpg")
+        this.load.image("caveWall", './img/bg/caveWall.PNG');
+        this.load.spritesheet('Player', './img/sprite/player.png', {
             frameWidth: 270 / 3, frameHeight: 90
         })
-        this.load.spritesheet('Jump', './sprite/Jump.png', {
+        this.load.spritesheet('Jump', './img/sprite/Jump.png', {
             frameWidth: 900 / 10, frameHeight: 90
         })
     }
 
     create() {
         //bg scene
+        this.add.image(0, -720 * 3, 'lv4').setOrigin(0, 0)
         this.add.image(1280, -720 * 2, 'caveWall').setOrigin(0, 0)
         this.add.image(0, -720 * 2, 'lv3').setOrigin(0, 0)
         this.add.image(0, -720, 'lv2').setOrigin(0, 0)
@@ -120,9 +121,8 @@ class GameScene extends Phaser.Scene {
 
         // PlatForm
         this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5).setAlpha(-1)
-        this.platform.create(640, 752,"Platform")
-        this.platform.create(640+1280, -690, "Platform") // stand on lv3.2
-        this.platform.create(-32, -1080, "PlatformY")
+        this.platform.create(640, 752,"ground")
+        this.platform.create(640+1280, -690, "ground") // stand on cave
         this.platArr = []
 
         for (let i in this.platform.getChildren()) {
@@ -130,15 +130,15 @@ class GameScene extends Phaser.Scene {
         }
 
         this.grassPlatform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
-        this.grassPlatform.create(640, -850, 'grassP');
-        this.grassPlatform.create(350, -950, 'grassP');
-        this.grassPlatform.create(120, -1100, 'grassP');
-        this.grassPlatform.create(400, -1300, 'grassP');
-        this.grassPlatform.create(720, -1500, 'grassP');
-        this.grassPlatform.create(850, -1250, 'grassP');
-        this.grassPlatform.create(1100, -1050, 'grassP');
-        this.grassPlatform.create(1400, -950, 'grassP');
-        this.grassPlatform.create(1700, -800, 'grassP');
+        this.grassPlatform.create(640, -850, 'Platform');
+        this.grassPlatform.create(350, -950, 'Platform');
+        this.grassPlatform.create(120, -1100, 'Platform');
+        this.grassPlatform.create(400, -1300, 'Platform');
+        this.grassPlatform.create(720, -1500, 'Platform');
+        this.grassPlatform.create(850, -1250, 'Platform');
+        this.grassPlatform.create(1100, -1050, 'Platform');
+        this.grassPlatform.create(1400, -950, 'Platform');
+        this.grassPlatform.create(1700, -800, 'Platform');
         this.grassPlatArr = []
 
         for (let i in this.grassPlatform.getChildren()) {
@@ -146,7 +146,7 @@ class GameScene extends Phaser.Scene {
         }
 
 
-        this.finnish = this.physics.add.image(2100, -750, 'grassP').setOrigin(0.5,0.5).setImmovable()
+        this.finnish = this.physics.add.image(2100, -750, 'Platform').setOrigin(0.5,0.5).setImmovable()
         this.finnish.body.setAllowGravity(false)
 
         this.physics.add.collider(this.player, this.finnish, () => {
@@ -242,7 +242,7 @@ class GameScene extends Phaser.Scene {
             this.timer()
         }
         //console.log(this.scene1.active);
-        // this.admin()
+        this.admin()
         // console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
