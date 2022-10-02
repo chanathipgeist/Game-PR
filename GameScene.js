@@ -13,7 +13,7 @@ class GameScene extends Phaser.Scene {
         this.load.spritesheet('Player', './sprite/fur.png', {
             frameWidth: 270 / 3, frameHeight: 90
         })
-        this.load.spritesheet('Jump', './sprite/jump.png', {
+        this.load.spritesheet('Jump', './sprite/Jump.png', {
             frameWidth: 900 / 10, frameHeight: 90
         })
     }
