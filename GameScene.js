@@ -6,18 +6,22 @@ class GameScene extends Phaser.Scene {
         this.load.image('caveDoor', './img/element/entrycave1.png')
         this.load.image("Platform", "./img/element/Platform.png")
         this.load.image("ground", "./img/element/ground.png")
+        this.load.image("poleRoman", "./img/element/RomanPole.png" )
+        this.load.image("saloon", "./img/element/Saloon_Entrance.png")
+        this.load.image("touch", "./img/element/torcha.png")
+        this.load.image("sign", "./img/element/sign1.png")
+        this.load.image("camp", "./img/element/camp.png")
         this.load.image("lv1", './img/bg/lv1.png')
         this.load.image("lv2", "./img/bg/lv2.png")
         this.load.image("lv3", "./img/bg/lv3.png")
         this.load.image("lv4", "./img/bg/lv4.jpg")
-        this.load.image("caveWall", './img/bg/caveWall.PNG');
+        this.load.image("caveWall", './img/bg/caveWall.PNG')
         this.load.spritesheet('Player', './img/sprite/player.png', {
             frameWidth: 270 / 3, frameHeight: 90
         })
         this.load.spritesheet('Jump', './img/sprite/Jump.png', {
             frameWidth: 900 / 10, frameHeight: 90
         })
-        this.load.image('sign','./img/element/sign1.png');
     }
 
     create() {
@@ -28,25 +32,31 @@ class GameScene extends Phaser.Scene {
         this.add.image(0, -720, 'lv2').setOrigin(0, 0)
         this.add.image(0, 0, 'lv1').setOrigin(0, 0)
 
-        this.timeText1 = this.add.text(20, 20);
-        this.timeText2 = this.add.text(20, 20);
-        this.timeText3 = this.add.text(20, 20);
-        this.timeText4 = this.add.text(20, 20);
-        this.timeTextCave = this.add.text(20, 20);
+        this.timeText1 = this.add.text(5, 20);
+        this.timeText2 = this.add.text(5, 20);
+        this.timeText3 = this.add.text(5, 20);
+        this.timeText4 = this.add.text(5, 20);
+        this.timeTextCave = this.add.text(5, 20);
 
         // PlatForm
-        this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5).setAlpha(-1)
-        this.platform.create(640, 720,"ground")
-        this.platform.create(640+1280, -690, "ground") // stand on cave
+        this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
+        this.platform.create(150, -255, "saloon").setSize(115, 40).setOffset(45, 10)
+        this.platform.create(200, 230,"poleRoman").setScale(0.9).setSize(250, 300).setOffset(30, 50)
+        this.platform.create(640, 740,"ground").setSize(1280, 230)
+        this.platform.create(640+1280, -690, "ground").setSize(1280, 230) // stand on cave
         this.platArr = []
         for (let i in this.platform.getChildren()) {
             this.platArr[i] = this.platform.getChildren()[i].body.top
         }
+        this.add.image(1140, -1159, "sign").setScale(0.24)
+        this.add.image(280, -185, "touch")
+        this.add.image(1911, -900, "camp").setScale(0.5)
+        this.add.image(2050, -820, "touch")
+        this.add.image(2186, -900, "camp").setScale(0.5)
 
-        this.add.image(1120, -1150, 'sign').setOrigin(0, 0).setScale(0.23)
 
-        // Player player x 113.33333333333415 player y 546
-        this.player = this.physics.add.sprite(113, 546, "Player")
+        // 1553.999999999997 player y -851
+        this.player = this.physics.add.sprite(1553, -851, "Player")
         .setSize(50, 70)
         .setOffset(20, 21)
         // .setSize(1100,1400)
@@ -131,46 +141,57 @@ class GameScene extends Phaser.Scene {
         })
         // this.cameras.main.startFollow(this.player);    
 
-        this.grassPlatform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
+        this.dirtPlatform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
         //-----scene1-----
-
+        this.dirtPlatform.create(660, 550, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(380, 430, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(930, 440, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(1150, 380, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(650, 330, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(850, 200, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(1180, 100, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(550, 100, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         //-----scene1-----
         //-----scene2-----
-
+        this.dirtPlatform.create(700,-80, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(1080,-130, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(900,-300, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(660,-380, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(400,-450, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(750,-600, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         //-----scene2-----
         //-----scene3----- merge Cave
-        this.grassPlatform.create(640, -850, 'Platform');
-        this.grassPlatform.create(350, -950, 'Platform');
-        this.grassPlatform.create(120, -1100, 'Platform');
-        this.grassPlatform.create(400, -1300, 'Platform');
-        this.grassPlatform.create(720, -1500, 'Platform');
-        this.grassPlatform.create(850, -1250, 'Platform');
-        this.grassPlatform.create(1100, -1050, 'Platform');
-        this.grassPlatform.create(1400, -950, 'Platform');
-        this.grassPlatform.create(1700, -800, 'Platform');
+        this.dirtPlatform.create(640, -850, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);;
+        this.dirtPlatform.create(350, -950, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);;
+        this.dirtPlatform.create(120, -1100, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(400, -1300, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(720, -1500, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(830, -1250, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(1100, -1100, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(1400, -900, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         //-----scene3-----
         this.grassPlatArr = []
 
-        for (let i in this.grassPlatform.getChildren()) {
-            this.grassPlatArr[i] = this.grassPlatform.getChildren()[i].body.top
+        for (let i in this.dirtPlatform.getChildren()) {
+            this.grassPlatArr[i] = this.dirtPlatform.getChildren()[i].body.top
         }
 
 
-        this.finnish = this.physics.add.image(2100, -750, 'Platform').setOrigin(0.5,0.5).setImmovable()
-        this.finnish.body.setAllowGravity(false)
+        // this.finnish = this.physics.add.image(2100, -750, 'Platform').setOrigin(0.5,0.5).setImmovable()
+        // this.finnish.body.setAllowGravity(false)
 
-        this.physics.add.collider(this.player, this.finnish, () => {
-            this.finnish.destroy();
-            this.timing.paused = true
-            console.log(this.timeText());
-        })
+        // this.physics.add.collider(this.player, this.finnish, () => {
+        //     this.finnish.destroy();
+        //     this.timing.paused = true
+        //     console.log(this.timeText());
+        // })
 
         this.jumpAble = true
 
         // Collinder
         this.cX = 0;
         this.physics.add.collider(this.player,this.platform)
-        this.physics.add.collider(this.player, this.grassPlatform)
+        this.physics.add.collider(this.player, this.dirtPlatform)
         // set zone scenes 
 
         this.scene1.x = (this.game.config.width / 2);
@@ -189,19 +210,19 @@ class GameScene extends Phaser.Scene {
         this.caveZone.y = this.scene3.y
 
         //posText 
-        this.timeTextCave.x = this.caveZone.x -600 ;
+        this.timeTextCave.x = this.caveZone.x -620 ;
         this.timeTextCave.y = this.caveZone.y -350;
 
         this.timeText4.x = this.scene4.x -450 ;
         this.timeText4.y = this.scene4.y -350;
 
-        this.timeText3.x = this.scene3.x -600 ;
+        this.timeText3.x = this.scene3.x -620 ;
         this.timeText3.y = this.scene3.y -350;
 
-        this.timeText2.x = this.scene2.x -600 ;
+        this.timeText2.x = this.scene2.x -620 ;
         this.timeText2.y = this.scene2.y -350;
 
-        this.timeText1.x = this.scene1.x -600 ;
+        this.timeText1.x = this.scene1.x -620 ;
         this.timeText1.y = this.scene1.y -350;
 
         // Keyboard Input
