@@ -3,6 +3,7 @@ class GameScene extends Phaser.Scene {
         super({ key: "GameScene" });
     }
     preload() {
+        this.load.image('caveDoor', './img/element/entrycave1.png')
         this.load.image("Platform", "./img/element/Platform.png")
         this.load.image("ground", "./img/element/ground.png")
         this.load.image("lv1", './img/bg/lv1.png')
@@ -16,6 +17,7 @@ class GameScene extends Phaser.Scene {
         this.load.spritesheet('Jump', './img/sprite/Jump.png', {
             frameWidth: 900 / 10, frameHeight: 90
         })
+        this.load.image('sign','./img/element/sign1.png');
     }
 
     create() {
@@ -32,8 +34,19 @@ class GameScene extends Phaser.Scene {
         this.timeText4 = this.add.text(20, 20);
         this.timeTextCave = this.add.text(20, 20);
 
-        // Player
-        this.player = this.physics.add.sprite(600, -1100, "Player")
+        // PlatForm
+        this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5).setAlpha(-1)
+        this.platform.create(640, 720,"ground")
+        this.platform.create(640+1280, -690, "ground") // stand on cave
+        this.platArr = []
+        for (let i in this.platform.getChildren()) {
+            this.platArr[i] = this.platform.getChildren()[i].body.top
+        }
+
+        this.add.image(1120, -1150, 'sign').setOrigin(0, 0).setScale(0.23)
+
+        // Player player x 113.33333333333415 player y 546
+        this.player = this.physics.add.sprite(113, 546, "Player")
         .setSize(50, 70)
         .setOffset(20, 21)
         // .setSize(1100,1400)
@@ -116,20 +129,16 @@ class GameScene extends Phaser.Scene {
         this.scene1o = this.physics.add.overlap(this.player,this.scene1, () => {
             this.cameras.main.pan(this.scene1.x, this.scene1.y, 0, 'Power2')
         })
-        // this.cameras.main.startFollow(this.player);
-    
-
-        // PlatForm
-        this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5).setAlpha(-1)
-        this.platform.create(640, 752,"ground")
-        this.platform.create(640+1280, -690, "ground") // stand on cave
-        this.platArr = []
-
-        for (let i in this.platform.getChildren()) {
-            this.platArr[i] = this.platform.getChildren()[i].body.top
-        }
+        // this.cameras.main.startFollow(this.player);    
 
         this.grassPlatform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
+        //-----scene1-----
+
+        //-----scene1-----
+        //-----scene2-----
+
+        //-----scene2-----
+        //-----scene3----- merge Cave
         this.grassPlatform.create(640, -850, 'Platform');
         this.grassPlatform.create(350, -950, 'Platform');
         this.grassPlatform.create(120, -1100, 'Platform');
@@ -139,6 +148,7 @@ class GameScene extends Phaser.Scene {
         this.grassPlatform.create(1100, -1050, 'Platform');
         this.grassPlatform.create(1400, -950, 'Platform');
         this.grassPlatform.create(1700, -800, 'Platform');
+        //-----scene3-----
         this.grassPlatArr = []
 
         for (let i in this.grassPlatform.getChildren()) {
@@ -182,7 +192,7 @@ class GameScene extends Phaser.Scene {
         this.timeTextCave.x = this.caveZone.x -600 ;
         this.timeTextCave.y = this.caveZone.y -350;
 
-        this.timeText4.x = this.scene4.x -600 ;
+        this.timeText4.x = this.scene4.x -450 ;
         this.timeText4.y = this.scene4.y -350;
 
         this.timeText3.x = this.scene3.x -600 ;
@@ -243,7 +253,7 @@ class GameScene extends Phaser.Scene {
         }
         //console.log(this.scene1.active);
         this.admin()
-        // console.log(`player x ${this.player.x} player y ${this.player.y}`);
+        console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
         //console.log(this.talkable)
