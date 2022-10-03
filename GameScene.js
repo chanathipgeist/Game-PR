@@ -10,7 +10,6 @@ class GameScene extends Phaser.Scene {
         this.load.image("ground", "./img/element/ground.png")
         this.load.image("poleRoman", "./img/element/RomanPole.png" )
         this.load.image("saloon", "./img/element/Saloon_Entrance.png")
-        this.load.image("touch", "./img/element/torcha.png")
         this.load.image("sign", "./img/element/sign1.png")
         this.load.image("camp", "./img/element/camp.png")
         this.load.image("mojitoStand", './img/element/MojitoPedestal.png')
@@ -27,6 +26,9 @@ class GameScene extends Phaser.Scene {
         })
         this.load.spritesheet('Jump', './img/sprite/Jump.png', {
             frameWidth: 900 / 10, frameHeight: 90
+        })
+        this.load.spritesheet('fire','./img/sprite/fire.png', {
+            frameWidth: 195 / 3, frameHeight: 65
         })
     }
 
@@ -49,6 +51,23 @@ class GameScene extends Phaser.Scene {
         this.timeText4 = this.add.text(5, 20);
         this.timeTextCave = this.add.text(5, 20);
 
+        this.anims.create({
+            key: 'touchAni',
+            frames: this.anims.generateFrameNumbers('fire', {
+                start: 0,
+                end: 2
+            }),
+            duration: 700,    
+            repeat: -1,
+        })
+        
+        this.add.image(1140, -1159, "sign").setScale(0.24)
+        this.fire1 = this.add.sprite(280, -185, "fire")
+       
+
+        this.fire1.anims.play('touchAni', true)
+
+
         // PlatForm
         this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
         this.platform.create(150, -255, "saloon").setSize(115, 40).setOffset(45, 10)
@@ -60,7 +79,7 @@ class GameScene extends Phaser.Scene {
         this.platform.create(-64, -720, "borderY").setOrigin(0, 0).setOffset(32, 360)
         this.platform.create(1280, -720, "borderY").setOrigin(0, 0).setOffset(32, 360)
         this.platform.create(-64, -720 * 2, "borderY").setOrigin(0, 0).setOffset(32, 360)
-        this.platform.create(1280, -720 * 2, "borderY").setOrigin(0, 0).setOffset(32, 360)
+        this.platform.create(1280 * 2, -720 * 2, "borderY").setOrigin(0, 0).setOffset(32, 360)
         this.platform.create(-64, -720 * 3, "borderY").setOrigin(0, 0).setOffset(32, 360)
         this.platform.create(1280, -720 * 3, "borderY").setOrigin(0, 0).setOffset(32, 360)
         this.platform.create(0, -720*3 - 64, "borderX").setOrigin(0, 0).setOffset(640, 30)
@@ -69,12 +88,12 @@ class GameScene extends Phaser.Scene {
             this.platArr[i] = this.platform.getChildren()[i].body.top
         }
 
-        this.add.image(1140, -1159, "sign").setScale(0.24)
-        this.add.image(280, -185, "touch")
-        this.add.image(1911, -900, "camp").setScale(0.5)
-        this.add.image(2050, -820, "touch")
-        this.add.image(2186, -900, "camp").setScale(0.5)
+        this.fire2 = this.add.sprite(2050, -820, "fire")
+        this.fire2.anims.play('touchAni', true)
 
+
+        this.add.image(1911, -900, "camp").setScale(0.5)
+        this.add.image(2186, -900, "camp").setScale(0.5)
 
         this.dirtPlatform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
         //-----scene1-----
@@ -119,7 +138,8 @@ class GameScene extends Phaser.Scene {
             this.grassPlatArr[i] = this.dirtPlatform.getChildren()[i].body.top
         }
 
-        this.add.image(200, -1658, "touch").setScale(1.2)
+        this.fire3 = this.add.sprite(200, -1638, "fire")
+        this.fire3.anims.play('touchAni', true)
 
         //  371.8333333333347 player y 579
         this.player = this.physics.add.sprite(371,579, "Player")
@@ -131,6 +151,7 @@ class GameScene extends Phaser.Scene {
         
         //text
         this.finalTimeText = this.add.text(300 + 1280, -710 * 2);
+
 
         this.anims.create({
             key: 'playerAni',
@@ -293,11 +314,12 @@ class GameScene extends Phaser.Scene {
             if (Phaser.Input.Keyboard.JustDown(this.enter)) {
                 this.events.emit('Talk')
             }
-            if(this.f.isDown) {        
+            this.input.keyboard.on("keydown" , () => {   
                 this.timing.delay = this.checkTime;
                 this.elapsedTimeToMinSec(this.timing.getElapsed())
                 this.timing.paused = false
             }
+            )
     
             if(this.c.isDown) {
                this.timing.paused = true
@@ -309,7 +331,7 @@ class GameScene extends Phaser.Scene {
         // console.log(this.player.body.velocity);
         //console.log(this.scene1.active);
         // this.admin()
-        console.log(`player x ${this.player.x} player y ${this.player.y}`);
+        // console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
         //console.log(this.talkable)
