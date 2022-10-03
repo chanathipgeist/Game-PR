@@ -15,6 +15,7 @@ class GameScene extends Phaser.Scene {
         this.load.image("mojitoStand", './img/element/MojitoPedestal.png')
         this.load.image("borderX", './img/element/borderX.png')
         this.load.image("borderY", './img/element/borderY.png')
+        this.load.image("mojito", './img/element/mojito.png');
         this.load.image("lv1", './img/bg/lv1.png')
         this.load.image("lv2", "./img/bg/lv2.png")
         this.load.image("lv3", "./img/bg/lv3.png")
@@ -141,8 +142,11 @@ class GameScene extends Phaser.Scene {
         this.fire3 = this.add.sprite(200, -1638, "fire")
         this.fire3.anims.play('touchAni', true)
 
+        this.mojito = this.physics.add.image(1174, -1980, 'mojito').setScale(0.24)
+        this.mojito.body.setAllowGravity(false)
+    
         //  371.8333333333347 player y 579
-        this.player = this.physics.add.sprite(371,579, "Player")
+        this.player = this.physics.add.sprite(371, 579, "Player")
         .setSize(50, 70)
         .setOffset(20, 21)
         // .setSize(1100,1400)
@@ -297,6 +301,11 @@ class GameScene extends Phaser.Scene {
             }),
         });
 
+        this.physics.add.overlap(this.player, this.mojito, () => {
+            this.mojito.destroy();
+            this.timing.paused = true;
+        })
+
         this.timing.paused = true
 
         this.dim = this.add.rectangle(0,0, this.game.config.width * 2 , this.game.config.height * 2 , 0x000000 )
@@ -305,6 +314,8 @@ class GameScene extends Phaser.Scene {
 
         this.load.once('complete' , this.sceneStart, this)
         this.load.start()
+
+        this.startX = 0
     }
 
     update() {
@@ -315,9 +326,14 @@ class GameScene extends Phaser.Scene {
                 this.events.emit('Talk')
             }
             this.input.keyboard.on("keydown" , () => {   
-                this.timing.delay = this.checkTime;
-                this.elapsedTimeToMinSec(this.timing.getElapsed())
-                this.timing.paused = false
+                if(this.second > 0) {
+
+                }
+                else {
+                    this.timing.delay = this.checkTime;
+                    this.elapsedTimeToMinSec(this.timing.getElapsed())
+                    this.timing.paused = false
+                }
             }
             )
     
