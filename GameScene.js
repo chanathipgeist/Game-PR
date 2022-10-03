@@ -55,8 +55,8 @@ class GameScene extends Phaser.Scene {
         this.add.image(2186, -900, "camp").setScale(0.5)
 
 
-        // 1553.999999999997 player y -851
-        this.player = this.physics.add.sprite(1553, -851, "Player")
+        //  375.49999999999994 player y 579
+        this.player = this.physics.add.sprite(375, 579, "Player")
         .setSize(50, 70)
         .setOffset(20, 21)
         // .setSize(1100,1400)
@@ -157,7 +157,7 @@ class GameScene extends Phaser.Scene {
         this.dirtPlatform.create(1080,-130, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         this.dirtPlatform.create(900,-300, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         this.dirtPlatform.create(660,-380, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
-        this.dirtPlatform.create(400,-450, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(350,-450, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         this.dirtPlatform.create(750,-600, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         //-----scene2-----
         //-----scene3----- merge Cave
@@ -266,15 +266,15 @@ class GameScene extends Phaser.Scene {
                 this.timing.paused = false
             }
     
-            //if(this.c.isDown) {
-            //    this.timing.paused = true
-            //    console.log('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
-           // }
+            if(this.c.isDown) {
+               this.timing.paused = true
+               console.log('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
+           }
             this.timer()
         }
         //console.log(this.scene1.active);
-        this.admin()
-        console.log(`player x ${this.player.x} player y ${this.player.y}`);
+        // this.admin()
+        // console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
         //console.log(this.talkable)
