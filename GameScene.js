@@ -309,6 +309,8 @@ class GameScene extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.mojito, () => {
             this.mojito.destroy();
             this.timing.paused = true;
+            console.log(minuteToEnd);
+            console.log(secondToEnd);
         })
 
         this.timing.paused = true
@@ -316,11 +318,6 @@ class GameScene extends Phaser.Scene {
         this.dim = this.add.rectangle(0,0, this.game.config.width * 2 , this.game.config.height * 2 , 0x000000 )
         .setOrigin(0,0)
         .setAlpha(0)
-
-        this.input.on('pointerdown', () => {
-            console.log(this.input.activePointer.x);
-            console.log(this.input.activePointer.y);
-        })
 
         this.load.once('complete' , this.sceneStart, this)
         this.load.start()
@@ -366,6 +363,7 @@ class GameScene extends Phaser.Scene {
                 this.slopeB.setVelocityX(50)
             }, 3000)
         }
+        
         // console.log('(' + this.pointer.x + ', ' + this.pointer.y + ')');
         // console.log(this.player.body.velocity);
         //console.log(this.scene1.active);
@@ -396,6 +394,8 @@ class GameScene extends Phaser.Scene {
         this.second = Math.floor(elapsedTime /1000) % 60;
         this.minuteTwoUnit = parseInt(this.minute, 10) > 9? "" + parseInt(this.minute, 10): "0" + parseInt(this.minute, 10)
         this.secondTwoUnit = this.second > 9 ? "" + this.second: "0" + this.second;
+        minuteToEnd = this.minuteTwoUnit
+        secondToEnd = this.secondTwoUnit
     }
 
     movement() {

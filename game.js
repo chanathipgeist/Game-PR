@@ -1,5 +1,7 @@
 var playerSpeed = 200;
 var mute = false;
+var minuteToEnd = 0;
+var secondToEnd = 0;
 
 var config = {
     type: Phaser.AUTO,
