@@ -33,6 +33,9 @@ class GameScene extends Phaser.Scene {
         this.load.spritesheet('fire','./img/sprite/fire.png', {
             frameWidth: 195 / 3, frameHeight: 65
         })
+        this.load.spritesheet('climb', './img/sprite/climb.png', {
+            frameWidth: 90, frameHeight: 90
+        })
     }
 
     create() {
@@ -44,6 +47,14 @@ class GameScene extends Phaser.Scene {
         this.add.image(0, -720 * 2, 'lv3').setOrigin(0, 0)
         this.add.image(0, -720, 'lv2').setOrigin(0, 0)
         this.add.image(0, 0, 'lv1').setOrigin(0, 0)
+
+        this.ladder = this.physics.add.image(150, -395, 'ladder').setScale(0.3).setImmovable()
+        this.ladder.setSize(340,102*12).setOffset(150, -920)
+        this.ladder.body.setAllowGravity(false)
+
+        this.ladder2 = this.add.image(150, -497, 'ladder').setScale(0.3)
+        this.ladder3 = this.add.image(150, -599, 'ladder').setScale(0.3)
+        this.ladder3 = this.add.image(150, -701, 'ladder').setScale(0.3)
 
         this.timeText1 = this.add.text(5, 20)
         this.timeText2 = this.add.text(5, 20)
@@ -68,8 +79,7 @@ class GameScene extends Phaser.Scene {
 
         this.fire1.anims.play('touchAni', true)
 
-        this.ladder = this.physics.add.image(150, -395, 'ladder').setScale(0.3).setImmovable()
-        this.ladder.body.setAllowGravity(false)
+        
 
         // PlatForm
         this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
@@ -127,6 +137,7 @@ class GameScene extends Phaser.Scene {
         this.dirtPlatform.create(350, -950, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);;
         this.dirtPlatform.create(120, -1100, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         this.dirtPlatform.create(400, -1300, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
+        this.dirtPlatform.create(300, -740, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         this.dirtPlatform.create(720, -1500, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         this.dirtPlatform.create(830, -1250, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         this.dirtPlatform.create(1200, -1100, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
@@ -154,7 +165,7 @@ class GameScene extends Phaser.Scene {
     
 
         //  476.33333333333195 player y 579
-        this.player = this.physics.add.sprite(188, 579, "Player")
+        this.player = this.physics.add.sprite(180, 579, "Player")
         .setSize(50, 70)
         .setOffset(20, 21)
         // .setSize(1100,1400)
@@ -167,7 +178,57 @@ class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.slopeB)
 
         this.physics.add.overlap(this.player, this.ladder, () => {
-            console.log('ladder');
+            if(this.up.isDown) {
+                this.player.x = 158
+                this.player.anims.play('climbAni', true);
+                this.player.setVelocityY(-100)
+                this.player.body.setAllowGravity(false)
+            } else if (this.down.isDown) {
+                this.player.x = 158
+                this.player.anims.play('climbAni', true);
+                this.player.setVelocityY(100)
+            }
+
+            if(this.up.isDown && this.right.isDown) {
+                this.player.x = 158
+                this.player.anims.play('climbAni', true);
+                this.player.setVelocityX(0)
+                this.player.setVelocityY(-100)
+                this.player.body.setAllowGravity(false)
+            } else if (this.down.isDown && this.right.isDown) {
+                this.player.x = 158
+                this.player.anims.play('climbAni', true);
+                this.player.setVelocityY(100)
+            }
+
+            if(this.up.isDown && this.left.isDown) {
+                this.player.x = 158
+                this.player.anims.play('climbAni', true);
+                this.player.setVelocityX(0)
+                this.player.setVelocityY(-100)
+                this.player.body.setAllowGravity(false)
+            } else if (this.down.isDown && this.left.isDown) {
+                this.player.x = 158
+                this.player.anims.play('climbAni', true);
+                this.player.setVelocityY(100)
+            }
+
+            if(this.up.isDown && !this.Grounded()) {
+                this.player.x = 158
+                this.player.anims.play('climbAni', true);
+                this.player.setVelocityX(0)
+                this.player.setVelocityY(-100)
+                this.player.body.setAllowGravity(false)
+            }
+        })
+
+        this.checkLadderTop = this.add.zone(145, -847).setSize(50, 50).setOrigin(0.5, 0.5)
+        this.physics.world.enable(this.checkLadderTop)
+        this.checkLadderTop.body.setAllowGravity(false)
+
+        this.physics.add.overlap(this.player, this.checkLadderTop, () => {
+            this.player.setVelocityX(300)
+            this.player.setVelocityY(-100)
         })
 
         this.anims.create({
@@ -199,6 +260,16 @@ class GameScene extends Phaser.Scene {
             duration: 1100,    
             repeat: -1
         })
+
+        this.anims.create({
+            key: 'climbAni',
+            frames: this.anims.generateFrameNumbers('climb', {
+                start: 0,
+                end: 1
+            }),
+            duration: 1100,    
+            repeat: -1
+        })
         //this.player.setCollideWorldBounds(true)
         //this.player.body.setFrictionX(0)
 
@@ -226,6 +297,9 @@ class GameScene extends Phaser.Scene {
 
         this.physics.add.overlap(this.player,this.scene3, () => {
             this.cameras.main.pan(this.scene3.x, this.scene3.y, 0, 'Power2')
+            setTimeout(()=>{
+                this.player.body.setAllowGravity(true)
+            }, 1000)
         })
 
         this.scene2 = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5)
