@@ -61,7 +61,7 @@ class GameScene extends Phaser.Scene {
             repeat: -1,
         })
         
-        this.add.image(1140, -1159, "sign").setScale(0.24)
+        this.add.image(1170, -1159, "sign").setScale(0.24)
         this.fire1 = this.add.sprite(280, -185, "fire")
        
 
@@ -134,7 +134,7 @@ class GameScene extends Phaser.Scene {
         this.dirtPlatform.create(500, -1800, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         this.dirtPlatform.create(200, -1900, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         this.dirtPlatform.create(700, -1990, 'Platform3').setScale(0.6).setSize(120, 20).setOffset(45, 57);
-        this.dirtPlatform.create(1200, -1700, 'Platform2').setScale(1.5).setSize(350, 20).setOffset(-70, -10);
+        this.dirtPlatform.create(1180, -1700, 'Platform2').setScale(1.5).setSize(350, 20).setOffset(-70, -10);
         this.dirtPlatform.create(1174, -1870, "mojitoStand").setScale(0.4).setSize(110, 200).setOffset(190, 170)
         //-----scene4-----
         this.grassPlatArr = []
@@ -363,7 +363,7 @@ class GameScene extends Phaser.Scene {
                 this.slopeB.setVelocityX(50)
             }, 3000)
         }
-        console.log(this.BGmusic.isPlaying);
+        // console.log(this.BGmusic.isPlaying);
         // console.log('(' + this.pointer.x + ', ' + this.pointer.y + ')');
         // console.log(this.player.body.velocity);
         //console.log(this.scene1.active);
