@@ -323,8 +323,6 @@ class GameScene extends Phaser.Scene {
 
         this.load.once('complete' , this.sceneStart, this)
         this.load.start()
-
-        this.startX = 0
     }
 
     update() {
@@ -346,11 +344,22 @@ class GameScene extends Phaser.Scene {
             }
             )
     
-            if(this.c.isDown) {
-               this.timing.paused = true
-               console.log('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
-           }
+        //     if(this.c.isDown) {
+        //        this.timing.paused = true
+        //        console.log('Time: ' + this.minuteTwoUnit + ':' + this.secondTwoUnit);
+        //    }
             this.timer()
+        }
+        if(this.slopeB.x >= 450) {
+            this.slopeB.setVelocityX(0)
+            setTimeout(()=>{
+                this.slopeB.setVelocityX(-50)
+            }, 3000)
+        } else if (this.slopeB.x <= 400) {
+            this.slopeB.setVelocityX(0)
+            setTimeout(()=>{
+                this.slopeB.setVelocityX(50)
+            }, 3000)
         }
         // console.log('(' + this.pointer.x + ', ' + this.pointer.y + ')');
         // console.log(this.player.body.velocity);
