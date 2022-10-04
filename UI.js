@@ -4,7 +4,7 @@ class UI extends Phaser.Scene {
         Phaser.Scene.call(this, { key: 'UI', active: true });
     }
     preload() {
-        this.load.image("mojitoDeco" , "./img/element/mojitoDeco.png")
+        this.load.image("mojitoDeco" , "./img/element/mojito.png")
         this.load.image("paper" , "./img/element/Paper.png")
         this.load.spritesheet("fennec" , "./img/sprite/sitFennec.png" , {
             frameWidth : 432 , frameHeight : 324
