@@ -35,6 +35,8 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
+        this.sound.mute = mute
+
         //bg scene
         this.add.image(0, -720 * 3, 'lv4').setOrigin(0, 0)
         this.add.image(1280, -720 * 2, 'caveWall').setOrigin(0, 0)
@@ -42,16 +44,11 @@ class GameScene extends Phaser.Scene {
         this.add.image(0, -720, 'lv2').setOrigin(0, 0)
         this.add.image(0, 0, 'lv1').setOrigin(0, 0)
 
-        this.sound.stopAll()
-        this.sound.resumeAll()
-        this.m_bg = this.sound.add('bgSound').setVolume(0.4);
-        this.m_bg.play({ loop: true });
-
-        this.timeText1 = this.add.text(5, 20);
-        this.timeText2 = this.add.text(5, 20);
-        this.timeText3 = this.add.text(5, 20);
-        this.timeText4 = this.add.text(5, 20);
-        this.timeTextCave = this.add.text(5, 20);
+        this.timeText1 = this.add.text(5, 20)
+        this.timeText2 = this.add.text(5, 20)
+        this.timeText3 = this.add.text(5, 20)
+        this.timeText4 = this.add.text(5, 20)
+        this.timeTextCave = this.add.text(5, 20)
 
         this.anims.create({
             key: 'touchAni',
@@ -152,7 +149,7 @@ class GameScene extends Phaser.Scene {
         this.mojito.body.setAllowGravity(false)
     
         //  476.33333333333195 player y 579
-        this.player = this.physics.add.sprite(476, 579, "Player")
+        this.player = this.physics.add.sprite(200, 579, "Player")
         .setSize(50, 70)
         .setOffset(20, 21)
         // .setSize(1100,1400)
@@ -323,6 +320,7 @@ class GameScene extends Phaser.Scene {
 
         this.load.once('complete' , this.sceneStart, this)
         this.load.start()
+
     }
 
     update() {
@@ -502,30 +500,36 @@ class GameScene extends Phaser.Scene {
     }
 
     sceneStart() {
-        // this.cameras.main.startFollow(this.player)
-        // this.cameras.main.zoomTo(3.5 ,0)
-        // this.player.anims.play('playerAni', true);
-        // this.scene1o.active = false;
-        // this.tweens.add({
-        //     delay: 700,
-        //     targets: this.dim,
-        //     alpha: 0,
-        //     duration: 1500
-        // })
-        // this.tweens.add({
-        //     delay: 800,
-        //     targets: this.player,
-        //     x: this.player.x + 250,
-        //     duration: 2000
-        // })
-        // setTimeout(() => {
-        //     this.cameras.main.stopFollow(this.player)
-        //     this.cameras.main.pan(this.scene1.x, this.scene1.y, 500, 'Power2')
-        //     this.cameras.main.zoomTo(1,500)
-        //     this.player.anims.play('playerAni', false)
-        //     this.scene1o.active = true;
-        //     this.loaded = true
-        // },2500)
-        this.loaded = true;
+        this.dim = this.add.rectangle(0, 0, 1280, 720, 0x000000).setAlpha(1).setOrigin(0, 0)
+        this.add.tween({
+            targets: this.dim,
+            alpha: 0,
+            duration: 1000
+        })
+        this.cameras.main.startFollow(this.player)
+        this.cameras.main.zoomTo(3.5 ,0)
+        this.player.anims.play('playerAni', true);
+        this.scene1o.active = false;
+        this.tweens.add({
+            targets: this.dim,
+            alpha: 0,
+            duration: 1500
+        })
+        this.tweens.add({
+            targets: this.player,
+            x: this.player.x + 250,
+            duration: 2000
+        })
+        setTimeout(() => {
+            this.cameras.main.stopFollow(this.player)
+            this.cameras.main.pan(this.scene1.x, this.scene1.y, 500, 'Power2')
+            this.cameras.main.zoomTo(1,500)
+            this.player.anims.play('playerAni', false)
+            this.scene1o.active = true;
+            this.loaded = true
+        },2000)
+        // this.loaded = true;
     }
+
+    
 }

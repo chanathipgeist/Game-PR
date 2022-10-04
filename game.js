@@ -1,4 +1,5 @@
 var playerSpeed = 200;
+var mute = false;
 
 var config = {
     type: Phaser.AUTO,
@@ -12,7 +13,7 @@ var config = {
             debug : false
         }
     },
-    scene: [GameScene, UI]
+    scene: [menu, GameScene]
 };
 
 var game = new Phaser.Game(config);
