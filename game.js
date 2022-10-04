@@ -1,5 +1,6 @@
 var playerSpeed = 200;
 var mute = false;
+var ended = false;
 var minuteToEnd = 0;
 var secondToEnd = 0;
 
@@ -15,7 +16,7 @@ var config = {
             debug : false
         }
     },
-    scene: [GameScene]
+    scene: [GameScene , UI]
 };
 
 var game = new Phaser.Game(config);
