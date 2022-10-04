@@ -300,6 +300,9 @@ class GameScene extends Phaser.Scene {
             setTimeout(()=>{
                 this.player.body.setAllowGravity(true)
             }, 1000)
+            setTimeout(()=>{
+                this.checkLadderTop.x = -100
+            }, 2000)
         })
 
         this.scene2 = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5)
@@ -308,6 +311,7 @@ class GameScene extends Phaser.Scene {
 
         this.physics.add.overlap(this.player,this.scene2, () => {
             this.cameras.main.pan(this.scene2.x, this.scene2.y, 0, 'Power2')
+            this.checkLadderTop.x = 145
         })
 
         this.scene1 = this.add.zone(0, 0).setSize(this.game.config.width, this.game.config.height).setOrigin(0.5, 0.5)

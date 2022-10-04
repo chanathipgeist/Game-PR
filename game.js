@@ -12,7 +12,7 @@ var config = {
         arcade: {
                 gravity: { 
                     y: 1800 },
-            debug : false
+            debug : true
         }
     },
     scene: [menu, GameScene]
