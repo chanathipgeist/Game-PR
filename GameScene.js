@@ -515,58 +515,58 @@ class GameScene extends Phaser.Scene {
     }
 
     sceneStart() {
-        // this.dim = this.add.rectangle(0, 0, 1280, 720, 0x000000).setAlpha(1).setOrigin(0, 0)
-        // this.add.tween({
-        //     targets: this.dim,
-        //     alpha: 0,
-        //     duration: 1000
-        // })
-        // this.cameras.main.startFollow(this.player)
-        // this.cameras.main.zoomTo(3.5 ,0)
-        // this.player.anims.play('playerAni', true);
-        // this.scene1o.active = false;
-        // this.tweens.add({
-        //     targets: this.dim,
-        //     alpha: 0,
-        //     duration: 1500
-        // })
-        // this.tweens.add({
-        //     targets: this.player,
-        //     x: this.player.x + 250,
-        //     duration: 2000
-        // })
-        // setTimeout(() => {
-        //     this.cameras.main.stopFollow(this.player)
-        //     this.cameras.main.pan(this.scene1.x, this.scene1.y, 500, 'Power2')
-        //     this.cameras.main.zoomTo(1,500)
-        //     this.player.anims.play('playerAni', false)
-        //     this.instruction = this.add.text(221, 646, "Hold SpaceBar to Jump Higher, Longer you hold higher you can reach.")
-        //     .setOrigin(0, 0.5)
-        //     .setAlpha(0)
-        //     .setColor("#5F421B")
-        //     .setFontSize(20)
-        //     .setFontStyle('bold')
-        //     this.tweens.add({
-        //         targets: this.instruction,
-        //         alpha: 1,
-        //         duration: 1000
-        //     })
-        //     this.tweens.add({
-        //         targets: this.instruction,
-        //         alpha: 0,
-        //         x: this.instruction.x + 50,
-        //         duration: 700,
-        //         delay: 12000
-        //     })
-        //     this.scene1o.active = true;
-        //     this.loaded = true
-        // },2000)
+        this.dim = this.add.rectangle(0, 0, 1280, 720, 0x000000).setAlpha(1).setOrigin(0, 0)
+        this.add.tween({
+            targets: this.dim,
+            alpha: 0,
+            duration: 1000
+        })
+        this.cameras.main.startFollow(this.player)
+        this.cameras.main.zoomTo(3.5 ,0)
+        this.player.anims.play('playerAni', true);
+        this.scene1o.active = false;
+        this.tweens.add({
+            targets: this.dim,
+            alpha: 0,
+            duration: 1500
+        })
+        this.tweens.add({
+            targets: this.player,
+            x: this.player.x + 250,
+            duration: 2000
+        })
+        setTimeout(() => {
+            this.cameras.main.stopFollow(this.player)
+            this.cameras.main.pan(this.scene1.x, this.scene1.y, 500, 'Power2')
+            this.cameras.main.zoomTo(1,500)
+            this.player.anims.play('playerAni', false)
+            this.instruction = this.add.text(221, 646, "Hold SpaceBar to Jump Higher, Longer you hold higher you can reach.")
+            .setOrigin(0, 0.5)
+            .setAlpha(0)
+            .setColor("#5F421B")
+            .setFontSize(20)
+            .setFontStyle('bold')
+            this.tweens.add({
+                targets: this.instruction,
+                alpha: 1,
+                duration: 1000
+            })
+            this.tweens.add({
+                targets: this.instruction,
+                alpha: 0,
+                x: this.instruction.x + 50,
+                duration: 700,
+                delay: 12000
+            })
+            this.scene1o.active = true;
+            this.loaded = true
+        },2000)
 
-        // this.sound.stopAll()
-        // this.sound.resumeAll()
-        // this.BGmusic = this.sound.add("bgSound")
-        // this.BGmusic.play({loop: true, volume: 0.15})
-        this.loaded = true;
+        this.sound.stopAll()
+        this.sound.resumeAll()
+        this.BGmusic = this.sound.add("bgSound")
+        this.BGmusic.play({loop: true, volume: 0.15})
+        // this.loaded = true;
     }
 
     
