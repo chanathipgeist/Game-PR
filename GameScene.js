@@ -17,7 +17,7 @@ class GameScene extends Phaser.Scene {
         this.load.image("arrowUp", './img/element/arrowUp.png')
         this.load.image("borderX", './img/element/borderX.png')
         this.load.image("borderY", './img/element/borderY.png')
-        this.load.image("mojito", './img/element/mojito.png');
+        this.load.image("mojito", './img/element/mojitoDeco.png');
         this.load.image("lv1", './img/bg/lv1.png')
         this.load.image("lv2", "./img/bg/lv2.png")
         this.load.image("lv3", "./img/bg/lv3.png")
