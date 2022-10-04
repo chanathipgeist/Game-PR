@@ -22,7 +22,7 @@ class GameScene extends Phaser.Scene {
         this.load.image("lv3", "./img/bg/lv3.png")
         this.load.image("lv4", "./img/bg/lv4.jpg")
         this.load.image("caveWall", './img/bg/caveWall.PNG')
-        this.load.audio("bgSound", './music/menu_theme.mp3')
+        this.load.audio("bgSound", './music/gameBG.mp3')
         this.load.spritesheet('Player', './img/sprite/player.png', {
             frameWidth: 270 / 3, frameHeight: 90
         })
@@ -36,7 +36,7 @@ class GameScene extends Phaser.Scene {
 
     create() {
         this.sound.mute = mute
-
+   
         //bg scene
         this.add.image(0, -720 * 3, 'lv4').setOrigin(0, 0)
         this.add.image(1280, -720 * 2, 'caveWall').setOrigin(0, 0)
@@ -363,7 +363,7 @@ class GameScene extends Phaser.Scene {
                 this.slopeB.setVelocityX(50)
             }, 3000)
         }
-        
+        console.log(this.BGmusic.isPlaying);
         // console.log('(' + this.pointer.x + ', ' + this.pointer.y + ')');
         // console.log(this.player.body.velocity);
         //console.log(this.scene1.active);
@@ -553,6 +553,11 @@ class GameScene extends Phaser.Scene {
             this.scene1o.active = true;
             this.loaded = true
         },2000)
+
+        this.sound.stopAll()
+        this.sound.resumeAll()
+        this.BGmusic = this.sound.add("bgSound")
+        this.BGmusic.play({loop: true, volume: 0.15})
         // this.loaded = true;
     }
 
