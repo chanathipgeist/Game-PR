@@ -14,6 +14,7 @@ class GameScene extends Phaser.Scene {
         this.load.image("sign", "./img/element/sign1.png")
         this.load.image("camp", "./img/element/camp.png")
         this.load.image("mojitoStand", './img/element/MojitoPedestal.png')
+        this.load.image("arrowUp", './img/element/arrowUp.png')
         this.load.image("borderX", './img/element/borderX.png')
         this.load.image("borderY", './img/element/borderY.png')
         this.load.image("mojito", './img/element/mojito.png');
@@ -74,12 +75,22 @@ class GameScene extends Phaser.Scene {
         })
         
         this.add.image(1170, -1159, "sign").setScale(0.24)
+        this.add.image(1180, 50, "arrowUp").setScale(0.24)
+        this.add.image(670, -640, "arrowUp").setScale(0.24)
+        this.add.image(391, -1340, "arrowUp").setScale(0.24).setFlipX(true)
+
         this.fire1 = this.add.sprite(280, -185, "fire")
        
 
         this.fire1.anims.play('touchAni', true)
 
-        
+        setInterval(()=> {
+            this.mojito.setVelocityY(-10)
+        },500)
+
+        setInterval(()=> {
+            this.mojito.setVelocityY(10)
+        },1000)
 
         // PlatForm
         this.platform = this.physics.add.staticGroup().setOrigin(0.5,0.5)
@@ -454,7 +465,7 @@ class GameScene extends Phaser.Scene {
         // console.log(this.player.body.velocity);
         //console.log(this.scene1.active);
         // this.admin()
-        console.log(`player x ${this.player.x} player y ${this.player.y}`);
+        // console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
         //console.log(this.talkable)

@@ -34,10 +34,10 @@ class menu extends Phaser.Scene {
     
     create() {
         // Add Background IMG
-        this.input.on('pointerdown' , () => {
-            console.log(this.input.activePointer.x)
-            console.log(this.input.activePointer.y)
-        })
+        // this.input.on('pointerdown' , () => {
+        //     console.log(this.input.activePointer.x)
+        //     console.log(this.input.activePointer.y)
+        // })
 
         this.add.image(0,0,"bg").setOrigin(0,0)
         this.soundButt = this.add.sprite(1230 , 46 , "sound")
