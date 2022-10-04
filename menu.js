@@ -8,7 +8,7 @@ class menu extends Phaser.Scene {
         this.load.image("bg" , "./img/bg/BG lv1.png")
         this.load.image("storyboard" , "./img/bg/storyboard.png")
 
-        this.load.image("logo" , "./img/bg/Hello World (Recolor).PNG")
+        this.load.image("logo" , "./img/bg/Hello_World_(Recolor).png")
         this.load.spritesheet("logo_animate1" , "./img/bg/Logo 1st amimation/logo_anifirst.png" , {
             frameWidth : 1024 , frameHeight: 1024
         })
