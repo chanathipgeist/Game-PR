@@ -149,7 +149,7 @@ class GameScene extends Phaser.Scene {
         this.mojito.body.setAllowGravity(false)
     
         //  476.33333333333195 player y 579
-        this.player = this.physics.add.sprite(200, 579, "Player")
+        this.player = this.physics.add.sprite(600, -2000, "Player")
         .setSize(50, 70)
         .setOffset(20, 21)
         // .setSize(1100,1400)
@@ -362,7 +362,7 @@ class GameScene extends Phaser.Scene {
         // console.log('(' + this.pointer.x + ', ' + this.pointer.y + ')');
         // console.log(this.player.body.velocity);
         //console.log(this.scene1.active);
-        // this.admin()
+        this.admin()
         console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
