@@ -50,6 +50,7 @@ class GameScene extends Phaser.Scene {
         this.timeText4 = this.add.text(5, 20)
         this.timeTextCave = this.add.text(5, 20)
 
+
         this.anims.create({
             key: 'touchAni',
             frames: this.anims.generateFrameNumbers('fire', {
@@ -149,7 +150,7 @@ class GameScene extends Phaser.Scene {
         this.mojito.body.setAllowGravity(false)
     
         //  476.33333333333195 player y 579
-        this.player = this.physics.add.sprite(600, -2000, "Player")
+        this.player = this.physics.add.sprite(188, 579, "Player")
         .setSize(50, 70)
         .setOffset(20, 21)
         // .setSize(1100,1400)
@@ -316,10 +317,16 @@ class GameScene extends Phaser.Scene {
         .setOrigin(0,0)
         .setAlpha(0)
 
-        this.pointer = this.input.activePointer;
+        this.input.on('pointerdown', () => {
+            console.log(this.input.activePointer.x);
+            console.log(this.input.activePointer.y);
+        })
 
         this.load.once('complete' , this.sceneStart, this)
         this.load.start()
+
+        
+
 
     }
 
@@ -362,8 +369,8 @@ class GameScene extends Phaser.Scene {
         // console.log('(' + this.pointer.x + ', ' + this.pointer.y + ')');
         // console.log(this.player.body.velocity);
         //console.log(this.scene1.active);
-        this.admin()
-        console.log(`player x ${this.player.x} player y ${this.player.y}`);
+        // this.admin()
+        // console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
         //console.log(this.talkable)
@@ -525,6 +532,24 @@ class GameScene extends Phaser.Scene {
             this.cameras.main.pan(this.scene1.x, this.scene1.y, 500, 'Power2')
             this.cameras.main.zoomTo(1,500)
             this.player.anims.play('playerAni', false)
+            this.instruction = this.add.text(221, 646, "Hold SpaceBar to Jump Higher, Longer you hold higher you can reach.")
+            .setOrigin(0, 0.5)
+            .setAlpha(0)
+            .setColor("#5F421B")
+            .setFontSize(20)
+            .setFontStyle('bold')
+            this.tweens.add({
+                targets: this.instruction,
+                alpha: 1,
+                duration: 1000
+            })
+            this.tweens.add({
+                targets: this.instruction,
+                alpha: 0,
+                x: this.instruction.x + 50,
+                duration: 700,
+                delay: 12000
+            })
             this.scene1o.active = true;
             this.loaded = true
         },2000)

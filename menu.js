@@ -236,7 +236,7 @@ class menu extends Phaser.Scene {
 
         this.storyTeller =  false
         // When place any key
-        this.input.keyboard.on("keydown" , () => {
+        this.checkKeyDown = this.input.keyboard.on("keydown" , () => {
             if (!this.storyTeller && this.tutorial.alpha == 0) {
                 this.tweens.add({
                 targets:  this.music,
@@ -277,6 +277,7 @@ class menu extends Phaser.Scene {
                     alpha: 1,
                     duration: 1000
                 })
+                this.input.keyboard.off('keydown')
                 setTimeout(() => {
                     this.scene.stop("menu").launch("GameScene")
                 }, 1300)
@@ -288,8 +289,8 @@ class menu extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(this.r)) this.logo.anims.play("logo2")    
-        console.log(this.logo.height);
-        console.log(this.logo.width);
+        // console.log(this.logo.height);
+        // console.log(this.logo.width);
     }
     
     textAnimate(text) {
