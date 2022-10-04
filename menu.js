@@ -30,6 +30,7 @@ class menu extends Phaser.Scene {
         this.load.spritesheet("sound" , "./img/element/sound.png" , {
             frameWidth : 241 , frameHeight : 238
         })
+
     }
     
     create() {
@@ -69,7 +70,7 @@ class menu extends Phaser.Scene {
         })
 
         this.x = ['logo1' , "logo2"]
-        let presstart = this.add.text(this.game.config.width / 2 , 530 , "Press any button to start")
+        let presstart = this.add.text(this.game.config.width / 2 , 530 , "Press any button to start" , {fontFamily: 'gameFont3'})
         .setColor("#5F421B")
         .setOrigin(0.5,0.5)
         .setFontSize(30)
@@ -85,7 +86,7 @@ class menu extends Phaser.Scene {
         .setScale(0.3)
         .setAlpha(0)
 
-        this.timedEvent = this.time.addEvent({ delay: 5000, callback : () => {
+        this.timedEvent = this.time.addEvent({ delay: Phaser.Math.Between(2000,7000), callback : () => {
             this.logo.anims.play(this.x[Math.round(Math.random())])
         } , loop : true } );
 
@@ -155,7 +156,7 @@ class menu extends Phaser.Scene {
         .setOrigin(0,0)
         .setAlpha(0)
 
-        let embark = this.add.text(this.game.config.width / 2 , 550 , "Press any button to EMBARK")
+        let embark = this.add.text(this.game.config.width / 2 , 550 , "Press any button to embark" , {fontFamily: 'gameFont3'})
         .setColor("#5F421B")
         .setOrigin(0.5,0.5)
         .setFontSize(30)
@@ -184,7 +185,7 @@ class menu extends Phaser.Scene {
         this.l7 = []
         this.l8 = []
         for (const i in this.story[0]) {
-            this.l1.push(this.add.text( 380 + i * 14 , 260 , this.story[0][i]).setAlpha(0).setFontSize(24).setColor(0xff0000).setFontStyle("bold"))
+            this.l1.push(this.add.text( 380 + i * 14 , 260 , this.story[0][i] , ).setAlpha(0).setFontSize(24).setColor(0xff0000).setFontStyle("bold"))
         }
         for (const i in this.story[1]) {
             this.l2.push(this.add.text( 380 + i * 14 , 290 , this.story[1][i]).setAlpha(0).setFontSize(24).setColor(0xff0000).setFontStyle("bold"))

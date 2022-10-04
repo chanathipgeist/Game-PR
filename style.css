@@ -9,3 +9,9 @@ body {
     justify-content: center;
     height: 100%;
 }
+
+
+@font-face {
+    font-family: gameFont3;
+    src: url('./font/ale-and-wenches-bb.ttf');
+}

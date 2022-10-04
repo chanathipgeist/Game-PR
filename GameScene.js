@@ -406,6 +406,7 @@ class GameScene extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.mojito, () => {
             this.mojito.destroy();
             this.timing.paused = true;
+            this.events.emit("ending")
             console.log(minuteToEnd);
             console.log(secondToEnd);
         })
