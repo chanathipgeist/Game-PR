@@ -1,4 +1,7 @@
 var playerSpeed = 200;
+var mute = false;
+var minuteToEnd = 0;
+var secondToEnd = 0;
 
 var config = {
     type: Phaser.AUTO,
@@ -9,10 +12,10 @@ var config = {
         arcade: {
                 gravity: { 
                     y: 1800 },
-            debug : true
+            debug : false
         }
     },
-    scene: [GameScene, UI]
+    scene: [GameScene]
 };
 
 var game = new Phaser.Game(config);
