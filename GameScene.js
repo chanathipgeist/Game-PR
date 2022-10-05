@@ -22,7 +22,7 @@ class GameScene extends Phaser.Scene {
         this.load.image("lv2", "./img/bg/lv2.png")
         this.load.image("lv3", "./img/bg/lv3.png")
         this.load.image("lv4", "./img/bg/lv4.jpg")
-        this.load.image("caveWall", './img/bg/caveWall.PNG')
+        this.load.image("caveWall", './img/bg/caveWall.png')
         this.load.audio("bgSound", './music/gameBG.mp3')
         this.load.image('ladder', './img/element/ladder.png')
         this.load.spritesheet('Player', './img/sprite/player.png', {
@@ -465,7 +465,7 @@ class GameScene extends Phaser.Scene {
         // console.log('(' + this.pointer.x + ', ' + this.pointer.y + ')');
         // console.log(this.player.body.velocity);
         //console.log(this.scene1.active);
-        // this.admin()
+        this.admin()
         // console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
