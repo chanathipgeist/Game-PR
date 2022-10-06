@@ -156,9 +156,7 @@ class UI extends Phaser.Scene {
     update() {
         if (this.ended && Phaser.Input.Keyboard.JustDown(this.space)) {
         minuteToEnd = 0 , secondToEnd = 0
-        this.scene.start('GameScene');
-        // this.scene.stop("GameScene").start('menu')
-        // this.scene.restart()
+        location.reload()
         }
     }
 

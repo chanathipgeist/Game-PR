@@ -409,11 +409,8 @@ class GameScene extends Phaser.Scene {
         });
 
         this.physics.add.overlap(this.player, this.mojito, () => {
-            this.mojito.destroy();
-            this.timing.paused = true;
+            this.mojito.destroy()
             this.events.emit("ending")
-            console.log(minuteToEnd);
-            console.log(secondToEnd);
         })
 
         this.timing.paused = true
@@ -426,6 +423,7 @@ class GameScene extends Phaser.Scene {
         this.load.start()
 
         this.antiSpamR = true
+        this.adminC = false
 
     }
 
@@ -476,6 +474,12 @@ class GameScene extends Phaser.Scene {
         // console.log(this.player.body.velocity);
         //console.log(this.scene1.active);
         // this.admin()
+        if(Phaser.Input.Keyboard.JustDown(this.c)) {
+            this.adminC = true
+        }
+        if(Phaser.Input.Keyboard.JustDown(this.f)) {
+            this.adminC = false
+        }
         // console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
@@ -616,23 +620,25 @@ class GameScene extends Phaser.Scene {
     }
 
     admin() {
-        if(this.left.isDown) {
-            this.player.setVelocityX(-500);
-        }
-        else if (this.right.isDown) {
-            this.player.setVelocityX(500);
-        }
-        else {
-            this.player.setVelocityX(0)
-        }
-
-        if(this.up.isDown) {
-            this.player.setVelocityY(-500);
-        }
-        else if (this.down.isDown) {
-            this.player.setVelocityY(500);
-        } else {
-            this.player.setVelocityY(0)
+        if(this.adminC) {
+            if(this.left.isDown) {
+                this.player.setVelocityX(-500);
+            }
+            else if (this.right.isDown) {
+                this.player.setVelocityX(500);
+            }
+            else {
+                this.player.setVelocityX(0)
+            }
+    
+            if(this.up.isDown) {
+                this.player.setVelocityY(-500);
+            }
+            else if (this.down.isDown) {
+                this.player.setVelocityY(500);
+            } else {
+                this.player.setVelocityY(0)
+            }
         }
     }
 
