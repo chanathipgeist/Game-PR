@@ -9,6 +9,13 @@ class UI extends Phaser.Scene {
         this.load.spritesheet("fennec" , "./img/sprite/sitFennec.png" , {
             frameWidth : 432 , frameHeight : 324
         })
+        
+        this.load.image("tutorialButt", "./img/element/instruction.png")
+        this.load.image("tutorial", "./img/element/pop_up_instruction1.png")
+        
+        this.load.spritesheet("sound" , "./img/element/sound.png" , {
+            frameWidth : 241 , frameHeight : 238
+        })
     }
     create() {
         this.ended = false
