@@ -41,10 +41,10 @@ class menu extends Phaser.Scene {
         // })
 
         this.add.image(0,0,"bg").setOrigin(0,0)
-        this.soundButt = this.add.sprite(1230 , 46 , "sound")
-        .setOrigin(0.5,0.5)
-        .setScale(0.23)
-        .setInteractive()
+        // this.soundButt = this.add.sprite(1230 , 46 , "sound")
+        // .setOrigin(0.5,0.5)
+        // .setScale(0.23)
+        // .setInteractive()
 
         this.logo = this.add.sprite(this.game.config.width / 2 , this.game.config.height / 2 , "logo")
 
@@ -76,69 +76,69 @@ class menu extends Phaser.Scene {
         .setFontSize(30)
         .setFontStyle("bold")
 
-        this.tutorialButt = this.add.sprite(1160 , 46 , "tutorialButt")
-        .setOrigin(0.5,0.5)
-        .setScale(0.23)
-        .setInteractive()
+        // this.tutorialButt = this.add.sprite(1160 , 46 , "tutorialButt")
+        // .setOrigin(0.5,0.5)
+        // .setScale(0.23)
+        // .setInteractive()
 
-        this.tutorial = this.add.image(this.game.config.width / 2 , this.game.config.height / 2 , "tutorial")
-        .setOrigin(0.5,0.5)
-        .setScale(0.3)
-        .setAlpha(0)
+        // this.tutorial = this.add.image(this.game.config.width / 2 , this.game.config.height / 2 , "tutorial")
+        // .setOrigin(0.5,0.5)
+        // .setScale(0.3)
+        // .setAlpha(0)
 
         this.timedEvent = this.time.addEvent({ delay: Phaser.Math.Between(2000,7000), callback : () => {
             this.logo.anims.play(this.x[Math.round(Math.random())])
         } , loop : true } );
 
-        this.anims.create({
-            key: 'unmute',
-            frames: this.anims.generateFrameNumbers('sound', {
-                start: 0,
-                end: 0
-            }),
-            duration: 0,    
-            repeat: -1
-        })
-        this.anims.create({
-            key: 'mute',
-            frames: this.anims.generateFrameNumbers('sound', {
-                start: 1,
-                end: 1
-            }),
-            duration: 0,    
-            repeat: -1
-        })
+        // this.anims.create({
+        //     key: 'unmute',
+        //     frames: this.anims.generateFrameNumbers('sound', {
+        //         start: 0,
+        //         end: 0
+        //     }),
+        //     duration: 0,    
+        //     repeat: -1
+        // })
+        // this.anims.create({
+        //     key: 'mute',
+        //     frames: this.anims.generateFrameNumbers('sound', {
+        //         start: 1,
+        //         end: 1
+        //     }),
+        //     duration: 0,    
+        //     repeat: -1
+        // })
 
         
-        this.soundButt.on('pointerdown' ,() => {
-            this.soundButt.setScale(0.20)
+        // this.soundButt.on('pointerdown' ,() => {
+        //     this.soundButt.setScale(0.20)
             
-        }).on('pointerup', () => {
-            this.soundButt.setScale(0.23)
-            if (!mute ) {
-                this.sound.mute = true
-                this.soundButt.anims.play('mute')
-                mute = true
-            }
-            else  {
-                this.sound.mute = false
-                this.soundButt.anims.play('unmute')
-                mute = false
-            }
-        })
+        // }).on('pointerup', () => {
+        //     this.soundButt.setScale(0.23)
+        //     if (!mute ) {
+        //         this.sound.mute = true
+        //         this.soundButt.anims.play('mute')
+        //         mute = true
+        //     }
+        //     else  {
+        //         this.sound.mute = false
+        //         this.soundButt.anims.play('unmute')
+        //         mute = false
+        //     }
+        // })
 
-        this.tutorialButt.on('pointerdown' ,() => {
-            this.tutorialButt.setScale(0.20)
+        // this.tutorialButt.on('pointerdown' ,() => {
+        //     this.tutorialButt.setScale(0.20)
             
-        }).on('pointerup', () => {
-            this.tutorialButt.setScale(0.23)
-            if (this.tutorial.alpha == 0) {
-                this.tutorial.alpha = 1
-            }
-            else  {
-                this.tutorial.alpha = 0
-            }
-        })
+        // }).on('pointerup', () => {
+        //     this.tutorialButt.setScale(0.23)
+        //     if (this.tutorial.alpha == 0) {
+        //         this.tutorial.alpha = 1
+        //     }
+        //     else  {
+        //         this.tutorial.alpha = 0
+        //     }
+        // })
 
         
 
@@ -238,7 +238,7 @@ class menu extends Phaser.Scene {
         this.storyTeller =  false
         // When place any key
         this.checkKeyDown = this.input.keyboard.on("keydown" , () => {
-            if (!this.storyTeller && this.tutorial.alpha == 0) {
+            if (!this.storyTeller) {
                 this.tweens.add({
                 targets:  this.music,
                 volume:   0,

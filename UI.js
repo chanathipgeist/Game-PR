@@ -79,6 +79,72 @@ class UI extends Phaser.Scene {
             this.ended = true
         }
         )
+
+        this.soundButt = this.add.sprite(1230 , 46 , "sound")
+        .setOrigin(0.5,0.5)
+        .setScale(0.23)
+        .setInteractive()
+        
+        this.tutorialButt = this.add.sprite(1160 , 46 , "tutorialButt")
+        .setOrigin(0.5,0.5)
+        .setScale(0.23)
+        .setInteractive()
+
+        this.tutorial = this.add.image(this.game.config.width / 2 , this.game.config.height / 2 , "tutorial")
+        .setOrigin(0.5,0.5)
+        .setScale(0.3)
+        .setAlpha(0)
+
+        this.anims.create({
+            key: 'unmute',
+            frames: this.anims.generateFrameNumbers('sound', {
+                start: 0,
+                end: 0
+            }),
+            duration: 0,    
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'mute',
+            frames: this.anims.generateFrameNumbers('sound', {
+                start: 1,
+                end: 1
+            }),
+            duration: 0,    
+            repeat: -1
+        })
+
+        
+        this.soundButt.on('pointerdown' ,() => {
+            this.soundButt.setScale(0.20)
+            
+        }).on('pointerup', () => {
+            this.soundButt.setScale(0.23)
+            if (!mute ) {
+                this.sound.mute = true
+                this.soundButt.anims.play('mute')
+                mute = true
+            }
+            else  {
+                this.sound.mute = false
+                this.soundButt.anims.play('unmute')
+                mute = false
+            }
+        })
+
+        this.tutorialButt.on('pointerdown' ,() => {
+            this.tutorialButt.setScale(0.20)
+            
+        }).on('pointerup', () => {
+            this.tutorialButt.setScale(0.23)
+            if (this.tutorial.alpha == 0) {
+                this.tutorial.alpha = 1
+            }
+            else  {
+                this.tutorial.alpha = 0
+            }
+        })
+        
         this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
        
         
@@ -90,7 +156,7 @@ class UI extends Phaser.Scene {
     update() {
         if (this.ended && Phaser.Input.Keyboard.JustDown(this.space)) {
         minuteToEnd = 0 , secondToEnd = 0
-        location.reload()
+        this.scene.start('GameScene');
         // this.scene.stop("GameScene").start('menu')
         // this.scene.restart()
         }

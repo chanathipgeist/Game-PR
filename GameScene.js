@@ -25,6 +25,10 @@ class GameScene extends Phaser.Scene {
         this.load.image("caveWall", './img/bg/caveWall.png')
         this.load.audio("bgSound", './music/gameBG.mp3')
         this.load.image('ladder', './img/element/ladder.png')
+
+        this.load.image("tutorialButt", "./img/element/instruction.png")
+        this.load.image("tutorial", "./img/element/pop_up_instruction1.png")
+        
         this.load.spritesheet('Player', './img/sprite/player.png', {
             frameWidth: 270 / 3, frameHeight: 90
         })
@@ -41,7 +45,7 @@ class GameScene extends Phaser.Scene {
 
     create() {
         this.sound.mute = mute
-   
+
         //bg scene
         this.add.image(0, -720 * 3, 'lv4').setOrigin(0, 0)
         this.add.image(1280, -720 * 2, 'caveWall').setOrigin(0, 0)
@@ -75,7 +79,7 @@ class GameScene extends Phaser.Scene {
         })
         
         this.add.image(1170, -1159, "sign").setScale(0.24)
-        this.add.image(1180, 50, "arrowUp").setScale(0.24)
+        this.add.image(530, 50, "arrowUp").setScale(0.24).setFlipX(true)
         this.add.image(670, -640, "arrowUp").setScale(0.24)
         this.add.image(391, -1340, "arrowUp").setScale(0.24).setFlipX(true)
 
@@ -131,7 +135,6 @@ class GameScene extends Phaser.Scene {
         this.dirtPlatform.create(1150, 380, 'Platform3').setScale(0.6).setSize(124, 20).setOffset(45, 55);
         this.dirtPlatform.create(650, 330, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         this.dirtPlatform.create(850, 190, 'Platform2').setScale(0.5).setSize(160, 20).setOffset(82, 40);
-        this.dirtPlatform.create(1180, 100, 'Platform').setScale(0.9).setSize(140, 20).setOffset(11, 5);
         this.dirtPlatform.create(550, 120, 'Platform3').setScale(0.4).setSize(70, 20).setOffset(70, 70);
         //-----scene1-----
         //-----scene2-----
@@ -175,7 +178,7 @@ class GameScene extends Phaser.Scene {
         this.mojito.body.setAllowGravity(false)
     
 
-        //  476.33333333333195 player y 579
+        //  476.33333333333195 player y 579 180 579
         this.player = this.physics.add.sprite(180, 579, "Player")
         .setSize(50, 70)
         .setOffset(20, 21)
@@ -393,6 +396,8 @@ class GameScene extends Phaser.Scene {
         this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 
+        this.refresh = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+
         this.c = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
         this.f = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
     
@@ -413,15 +418,14 @@ class GameScene extends Phaser.Scene {
 
         this.timing.paused = true
 
-        this.dim = this.add.rectangle(0,0, this.game.config.width * 2 , this.game.config.height * 2 , 0x000000 )
+        this.dim = this.add.rectangle(this.scene4.x,this.scene4.y, 1280  , 720 * 4   , 0x000000 )
         .setOrigin(0,0)
         .setAlpha(0)
 
         this.load.once('complete' , this.sceneStart, this)
         this.load.start()
 
-        
-
+        this.antiSpamR = true
 
     }
 
@@ -461,6 +465,12 @@ class GameScene extends Phaser.Scene {
                 this.slopeB.setVelocityX(50)
             }, 3000)
         }
+
+        if(Phaser.Input.Keyboard.JustDown(this.refresh) && this.antiSpamR) {
+            this.antiSpamR = false
+            this.refreshScene()
+            console.log('R');
+        }
         // console.log(this.BGmusic.isPlaying);
         // console.log('(' + this.pointer.x + ', ' + this.pointer.y + ')');
         // console.log(this.player.body.velocity);
@@ -472,6 +482,28 @@ class GameScene extends Phaser.Scene {
         //console.log(this.talkable)
         //this.scene1.x = this.game.config.width;
         //this.scene1.y = this.game.config.height;
+    }
+
+    refreshScene() {
+        this.tweens.add({
+            targets: this.dim,
+            alpha: 1,
+            duration: 1500
+        })
+        setTimeout(()=>{
+            this.player.x = 330
+            this.player.y = 579
+            this.timing.reset();
+        },1400)
+        setTimeout(()=>{
+            this.antiSpamR = true
+        },2000)
+        this.tweens.add({
+            targets: this.dim,
+            alpha: 0,
+            duration: 1500,
+            delay: 1500
+        })
     }
 
     timer() {
@@ -605,7 +637,7 @@ class GameScene extends Phaser.Scene {
     }
 
     sceneStart() {
-        this.dim = this.add.rectangle(0, 0, 1280, 720, 0x000000).setAlpha(1).setOrigin(0, 0)
+        this.dim = this.add.rectangle(0, -720 * 4, 1280, 720 * 5, 0x000000).setAlpha(1).setOrigin(0, 0)
         this.add.tween({
             targets: this.dim,
             alpha: 0,
