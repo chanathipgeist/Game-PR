@@ -10,12 +10,12 @@ class UI extends Phaser.Scene {
             frameWidth : 432 , frameHeight : 324
         })
         
-        // this.load.image("tutorialButt", "./img/element/instruction.png")
-        // this.load.image("tutorial", "./img/element/pop_up_instruction1.png")
+        this.load.image("tutorialButt", "./img/element/instruction.png")
+        this.load.image("tutorial", "./img/element/pop_up_instruction1.png")
         
-        // this.load.spritesheet("sound" , "./img/element/sound.png" , {
-        //     frameWidth : 241 , frameHeight : 238
-        // })
+        this.load.spritesheet("sound" , "./img/element/sound.png" , {
+            frameWidth : 241 , frameHeight : 238
+        })
     }
     create() {
         this.ended = false
@@ -159,11 +159,11 @@ class UI extends Phaser.Scene {
         this.progressBar = this.add.rectangle(40, 680, 20, 60, 0x00FF00).setOrigin(0, 0); // max width 20px ,max height 150px
         this.progressBar.setAlpha(0)
 
-        this.graphics = this.add.graphics();
-        this.graphics.lineStyle(2, 0x000000);
-        this.graphics.setAlpha(0)
-        //  32px radius on the corners
-        this.graphics.strokeRoundedRect(0, 0, 80, 10, 0)
+        // this.graphics = this.add.graphics();
+        // this.graphics.lineStyle(2, 0x000000);
+        // this.graphics.setAlpha(0)
+        // //  32px radius on the corners
+        // this.graphics.strokeRoundedRect(0, 0, 80, 10, 0)
               
     }   
     
@@ -179,7 +179,6 @@ class UI extends Phaser.Scene {
                 this.progressBar.setAlpha(1)
                 this.progressBar.height = -((this.space.getDuration() / 1200) * 150)
             } if (this.space.getDuration() > 1200) {
-                this.graphics.setAlpha(1)
                 this.progressBar.setAlpha(0)
             } if (Phaser.Input.Keyboard.JustUp(this.space)) {
                 this.progressBar.setAlpha(0)

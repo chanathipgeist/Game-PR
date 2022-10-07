@@ -487,7 +487,7 @@ class GameScene extends Phaser.Scene {
         // console.log('(' + this.pointer.x + ', ' + this.pointer.y + ')');
         // console.log(this.player.body.velocity);
         //console.log(this.scene1.active);
-        this.admin()
+        // this.admin()
         if(Phaser.Input.Keyboard.JustDown(this.c)) {
             this.adminC = true
         }
