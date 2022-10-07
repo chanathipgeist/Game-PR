@@ -43,7 +43,7 @@ class UI extends Phaser.Scene {
         this.yourTime = this.add.text(690 , 430, "" , {fontFamily: 'gameFont3' , fontSize: 40 , color: '#5F421B'})
         .setOrigin(0.5,0.5)
         .setAlpha(0)
-        this.con = this.add.text(690 , 485 , "Press SpaceBar to restart game" , {fontFamily: 'gameFont3' , fontSize: 18 , color: '#5F421B'})
+        this.con = this.add.text(690 , 485 , "Press R to restart game" , {fontFamily: 'gameFont3' , fontSize: 18 , color: '#5F421B'})
         .setOrigin(0.5,0.5)
         .setAlpha(0)
 
