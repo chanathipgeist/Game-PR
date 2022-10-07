@@ -409,7 +409,7 @@ class GameScene extends Phaser.Scene {
         });
 
         this.physics.add.overlap(this.player, this.mojito, () => {
-            this.mojito.destroy()
+            this.mojito.setAlpha(0)
             this.events.emit("ending")
         })
 
@@ -419,14 +419,14 @@ class GameScene extends Phaser.Scene {
         .setOrigin(0,0)
         .setAlpha(0)
 
-        this.progressBar = this.add.rectangle(this.player.x, this.player.y, 60, 10, 0x00FF00);
-        this.progressBar.setAlpha(0)
+        // this.progressBar = this.add.rectangle(this.player.x, this.player.y, 60, 10, 0x00FF00);
+        // this.progressBar.setAlpha(0)
 
-        this.graphics = this.add.graphics();
-        this.graphics.lineStyle(2, 0x000000);
-        this.graphics.setAlpha(0)
-        //  32px radius on the corners
-        this.graphics.strokeRoundedRect(0, 0, 80, 10, 0)
+        // this.graphics = this.add.graphics();
+        // this.graphics.lineStyle(2, 0x000000);
+        // this.graphics.setAlpha(0)
+        // //  32px radius on the corners
+        // this.graphics.strokeRoundedRect(0, 0, 80, 10, 0)
 
         this.load.once('complete' , this.sceneStart, this)
         this.load.start()
@@ -437,12 +437,13 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
-        this.progressBar.x = this.player.x - 10
-        this.progressBar.y = this.player.y + 70
-        this.graphics.x = this.player.x - 40
-        this.graphics.y = this.player.y +  65
+        // this.progressBar.x = this.player.x - 10
+        // this.progressBar.y = this.player.y + 70
+        // this.graphics.x = this.player.x - 40
+        // this.graphics.y = this.player.y +  65
+        // console.log(this.player.body.velocity);
         this.checkTime++
-        if (this.loaded){
+        if (loaded){
             this.movement()
             if (Phaser.Input.Keyboard.JustDown(this.enter)) {
                 this.events.emit('Talk')
@@ -486,13 +487,14 @@ class GameScene extends Phaser.Scene {
         // console.log('(' + this.pointer.x + ', ' + this.pointer.y + ')');
         // console.log(this.player.body.velocity);
         //console.log(this.scene1.active);
-        this.admin()
+        // this.admin()
         if(Phaser.Input.Keyboard.JustDown(this.c)) {
             this.adminC = true
         }
         if(Phaser.Input.Keyboard.JustDown(this.f)) {
             this.adminC = false
         }
+        //console.log(this.loaded);
         // console.log(`player x ${this.player.x} player y ${this.player.y}`);
         //console.log(this.player.body.height);
         //console.log(this.player.body.width);
@@ -568,22 +570,24 @@ class GameScene extends Phaser.Scene {
 
             if (this.space.isDown && this.jumpAble) {
                 this.player.anims.play('startJumpAni', true);
-                this.graphics.setAlpha(1)
-                this.progressBar.setAlpha(1)
-                this.progressBar.width = (this.space.getDuration() / 1200) * 80
+                // this.graphics.setAlpha(1)
+                // this.progressBar.setAlpha(1)
+                // this.progressBar.width = (this.space.getDuration() / 1200) * 80
                 if (this.space.getDuration() > 1200) {
-                    this.graphics.setAlpha(0)
-                    this.progressBar.setAlpha(0)
+                    // this.graphics.setAlpha(0)
+                    // this.progressBar.setAlpha(0)
                     this.player.anims.play('jumpAni', true);
                     this.player.setVelocity(this.jumpDir() , -playerSpeed * 5)
+                    console.log('Timeout');
                     this.space.duration = 0
                     this.jumpAble = false
                 }
-            } else if (Phaser.Input.Keyboard.JustUp(this.space) && this.jumpAble) {
-                this.graphics.setAlpha(0)
-                this.progressBar.setAlpha(0)
+            } else if (Phaser.Input.Keyboard.JustUp(this.space) && this.jumpAble && !(this.space.getDuration() > 1200)) {
+                // this.graphics.setAlpha(0)
+                // this.progressBar.setAlpha(0)
                 this.player.anims.play('jumpAni', true);
                 this.player.setVelocity(this.jumpDir() , -playerSpeed * this.space.duration/240)
+                console.log('Release');
                 this.space.duration = 0
                 this.jumpAble = false
 
@@ -662,6 +666,7 @@ class GameScene extends Phaser.Scene {
     }
 
     sceneStart() {
+        loaded = false
         this.dim = this.add.rectangle(0, -720 * 4, 1280, 720 * 5, 0x000000).setAlpha(1).setOrigin(0, 0)
         this.add.tween({
             targets: this.dim,
@@ -706,7 +711,7 @@ class GameScene extends Phaser.Scene {
                 delay: 12000
             })
             this.scene1o.active = true;
-            this.loaded = true
+            loaded = true
         },2000)
 
         this.sound.stopAll()

@@ -3,6 +3,7 @@ var mute = false;
 var ended = false;
 var minuteToEnd = 0;
 var secondToEnd = 0;
+var loaded;
 
 var config = {
     type: Phaser.AUTO,

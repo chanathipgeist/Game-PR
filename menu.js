@@ -289,6 +289,10 @@ class menu extends Phaser.Scene {
     } 
 
     update() {
+        // this.progressBar.x = this.player.x - 10
+        // this.progressBar.y = this.player.y + 70
+        // this.graphics.x = this.player.x - 40
+        // this.graphics.y = this.player.y +  65
         if (Phaser.Input.Keyboard.JustDown(this.r)) this.logo.anims.play("logo2")    
         // console.log(this.logo.height);
         // console.log(this.logo.width);
