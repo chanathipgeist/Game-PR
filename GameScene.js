@@ -419,6 +419,15 @@ class GameScene extends Phaser.Scene {
         .setOrigin(0,0)
         .setAlpha(0)
 
+        this.progressBar = this.add.rectangle(this.player.x, this.player.y, 60, 10, 0x00FF00);
+        this.progressBar.setAlpha(0)
+
+        this.graphics = this.add.graphics();
+        this.graphics.lineStyle(2, 0x000000);
+        this.graphics.setAlpha(0)
+        //  32px radius on the corners
+        this.graphics.strokeRoundedRect(0, 0, 80, 10, 0)
+
         this.load.once('complete' , this.sceneStart, this)
         this.load.start()
 
@@ -428,6 +437,10 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
+        this.progressBar.x = this.player.x - 10
+        this.progressBar.y = this.player.y + 70
+        this.graphics.x = this.player.x - 40
+        this.graphics.y = this.player.y +  65
         this.checkTime++
         if (this.loaded){
             this.movement()
@@ -473,7 +486,7 @@ class GameScene extends Phaser.Scene {
         // console.log('(' + this.pointer.x + ', ' + this.pointer.y + ')');
         // console.log(this.player.body.velocity);
         //console.log(this.scene1.active);
-        // this.admin()
+        this.admin()
         if(Phaser.Input.Keyboard.JustDown(this.c)) {
             this.adminC = true
         }
@@ -555,13 +568,20 @@ class GameScene extends Phaser.Scene {
 
             if (this.space.isDown && this.jumpAble) {
                 this.player.anims.play('startJumpAni', true);
+                this.graphics.setAlpha(1)
+                this.progressBar.setAlpha(1)
+                this.progressBar.width = (this.space.getDuration() / 1200) * 80
                 if (this.space.getDuration() > 1200) {
+                    this.graphics.setAlpha(0)
+                    this.progressBar.setAlpha(0)
                     this.player.anims.play('jumpAni', true);
                     this.player.setVelocity(this.jumpDir() , -playerSpeed * 5)
                     this.space.duration = 0
                     this.jumpAble = false
                 }
             } else if (Phaser.Input.Keyboard.JustUp(this.space) && this.jumpAble) {
+                this.graphics.setAlpha(0)
+                this.progressBar.setAlpha(0)
                 this.player.anims.play('jumpAni', true);
                 this.player.setVelocity(this.jumpDir() , -playerSpeed * this.space.duration/240)
                 this.space.duration = 0
@@ -570,7 +590,6 @@ class GameScene extends Phaser.Scene {
             } else if (this.space.isUp){
                 this.jumpAble = true
             }
-
         }
     }
 
