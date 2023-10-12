@@ -1,0 +1,11 @@
+# Node.js
+node_modules/
+
+# IDE-specific files (e.g., Visual Studio Code)
+.vscode/
+
+# Log files
+*.log
+
+# Dependencies installed via npm
+package-lock.json

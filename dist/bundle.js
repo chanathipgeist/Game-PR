@@ -1,0 +1,1 @@
+(()=>{var e={type:Phaser.AUTO,width:1280,height:720,physics:{default:"arcade",arcade:{gravity:{y:1800},debug:!1}},scene:[menu,GameScene,UI]};new Phaser.Game(e)})();
